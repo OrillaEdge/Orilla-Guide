@@ -976,7 +976,9 @@
       >
         <img id="screenshotImage" alt="" decoding="async" />
       </div>
-      <p class="screenshot-hint" id="screenshotHint">Press Escape or select Close to return to the guide.</p>
+      <p class="screenshot-hint" id="screenshotHint">
+        Press Escape or select Close to return to the guide.
+      </p>
     </dialog>
 
     <!-- ============================================================ -->
@@ -1185,7 +1187,7 @@
           <figcaption><span class="label">Fig 1.12</span> Change password flow 1a</figcaption>
         </figure>
        <figure class="figure">
-          <img decoding="async" data-full-height="938" data-full-width="2462" data-full-src="images/optimized/changePassword1b.webp" src="images/optimized/changePassword1b.preview.webp" width="1600" height="610" alt="Change password flow 2a" loading="lazy" />
+          <img decoding="async" data-full-height="938" data-full-width="2462" data-full-src="images/optimized/changePassword1b.webp" src="images/optimized/changePassword1b.preview.webp" width="1600" height="610" alt="Change password flow 1b" loading="lazy" />
           <figcaption><span class="label">Fig 1.13</span> Change password flow 1b</figcaption>
         </figure>
       `,
@@ -1524,7 +1526,7 @@ this screen</li>
         </figure>
 
         <h4 id="onboarding-monitoring">Monitoring Onboarding Progress</h4>
-        <p>After submission, the onboarding request appears in the Onboarding table. This table provides real-time visibility into the onboarding lifecycle and current status of each device. User can start, stop and retry the onboarding process throught the action button.</p>
+        <p>After submission, the onboarding request appears in the Onboarding table. This table provides real-time visibility into the onboarding lifecycle and current status of each device. User can start, stop and retry the onboarding process through the action button.</p>
  <figure class="figure">
           <img decoding="async" data-full-height="1056" data-full-width="3836" data-full-src="images/optimized/edge-management-onboarding-table.webp" src="images/optimized/edge-management-onboarding-table.preview.webp" width="1600" height="440" alt="Start, Stop and Retry onboarding process" loading="lazy" />
           <figcaption><span class="label">Fig 4.7</span> Start, Stop and Retry onboarding process</figcaption>
@@ -1901,7 +1903,8 @@ this screen</li>
         const screenshotDialog = document.getElementById("screenshotDialog");
         const screenshotImage = document.getElementById("screenshotImage");
         const screenshotTitle = document.getElementById("screenshotTitle");
-        const screenshotViewport = document.getElementById("screenshotViewport");
+        const screenshotViewport =
+          document.getElementById("screenshotViewport");
         const screenshotClose = document.getElementById("screenshotClose");
         let screenshotOpener = null;
 
@@ -1922,14 +1925,22 @@ this screen</li>
             button.appendChild(img);
             button.addEventListener("click", () => {
               screenshotOpener = button;
-              const caption = button.closest("figure").querySelector("figcaption");
+              const caption = button
+                .closest("figure")
+                .querySelector("figcaption");
               screenshotTitle.textContent = caption
-                ? caption.textContent.trim().replace(/\s+/g, " ")
+                ? caption.textContent
+                    .trim()
+                    .replace(/\s+/g, " ")
                     .replace(/^(Fig\s+\d+(?:\.\d+)+)\s*/, "$1 — ")
                 : img.alt;
               screenshotImage.alt = img.alt;
-              screenshotImage.width = Number(img.dataset.fullWidth || img.width);
-              screenshotImage.height = Number(img.dataset.fullHeight || img.height);
+              screenshotImage.width = Number(
+                img.dataset.fullWidth || img.width,
+              );
+              screenshotImage.height = Number(
+                img.dataset.fullHeight || img.height,
+              );
               screenshotImage.src = img.dataset.fullSrc || img.src;
               resetScreenshotViewport();
               screenshotDialog.showModal();
@@ -1938,20 +1949,26 @@ this screen</li>
           });
         }
 
-        screenshotClose.addEventListener("click", () => screenshotDialog.close());
+        screenshotClose.addEventListener("click", () =>
+          screenshotDialog.close(),
+        );
         screenshotDialog.addEventListener("click", (event) => {
           if (event.target !== screenshotDialog) return;
           const bounds = screenshotDialog.getBoundingClientRect();
           if (
-            event.clientX < bounds.left || event.clientX > bounds.right ||
-            event.clientY < bounds.top || event.clientY > bounds.bottom
-          ) screenshotDialog.close();
+            event.clientX < bounds.left ||
+            event.clientX > bounds.right ||
+            event.clientY < bounds.top ||
+            event.clientY > bounds.bottom
+          )
+            screenshotDialog.close();
         });
         screenshotDialog.addEventListener("close", () => {
           document.body.classList.remove("screenshot-open");
           screenshotImage.removeAttribute("src");
           resetScreenshotViewport();
-          if (screenshotOpener?.isConnected) screenshotOpener.focus({ preventScroll: true });
+          if (screenshotOpener?.isConnected)
+            screenshotOpener.focus({ preventScroll: true });
           screenshotOpener = null;
         });
 
