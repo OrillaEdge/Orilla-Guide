@@ -335,7 +335,6 @@
         margin: 56px 0 12px;
         padding-top: 8px;
         color: var(--text);
-        scroll-margin-top: 80px;
       }
       .doc h3 {
         font-size: 19px;
@@ -343,7 +342,6 @@
         font-weight: 600;
         margin: 36px 0 10px;
         color: var(--text);
-        scroll-margin-top: 80px;
       }
       .doc h4 {
         font-size: 15px;
@@ -352,6 +350,12 @@
         margin: 24px 0 6px;
         color: var(--text);
         text-transform: none;
+      }
+      .doc h2[id],
+      .doc h3[id],
+      .doc h4[id],
+      .doc h5[id] {
+        scroll-margin-top: 80px;
       }
       .doc p {
         margin: 0 0 14px;
@@ -405,6 +409,34 @@
         width: 100%;
         height: auto;
       }
+      .screenshot-trigger {
+        display: block;
+        position: relative;
+        width: 100%;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        cursor: zoom-in;
+      }
+      .screenshot-trigger::after {
+        content: "";
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        width: 32px;
+        height: 32px;
+        border-radius: 5px;
+        background-color: rgba(0, 0, 0, 0.8);
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round'><circle cx='10' cy='10' r='6'/><path d='m15 15 5 5M7 10h6M10 7v6'/></svg>");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 20px 20px;
+        pointer-events: none;
+      }
+      .screenshot-trigger:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: -3px;
+      }
       .figure figcaption {
         font-size: 13px;
         color: var(--text-muted);
@@ -421,6 +453,85 @@
         background: var(--bg-code);
         padding: 2px 6px;
         border-radius: 3px;
+        color: var(--text-muted);
+        flex: 0 0 auto;
+      }
+
+      /* Full-resolution screenshot viewer */
+      body.screenshot-open {
+        overflow: hidden;
+      }
+      .screenshot-dialog {
+        width: calc(100vw - 32px);
+        max-width: 1440px;
+        max-height: calc(100vh - 32px);
+        max-height: calc(100dvh - 32px);
+        padding: 0;
+        border: 1px solid var(--border-strong);
+        border-radius: 10px;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .screenshot-dialog[open] {
+        display: flex;
+        flex-direction: column;
+      }
+      .screenshot-dialog::backdrop {
+        background: rgba(0, 0, 0, 0.75);
+      }
+      .screenshot-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+        flex: 0 0 auto;
+        flex-wrap: wrap;
+      }
+      .screenshot-header h2 {
+        flex: 1 1 160px;
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.4;
+      }
+      .screenshot-controls {
+        display: flex;
+        gap: 8px;
+      }
+      .screenshot-controls button {
+        padding: 6px 12px;
+        border: 1px solid var(--border-strong);
+        border-radius: 5px;
+        background: var(--bg);
+        color: var(--text);
+        cursor: pointer;
+      }
+      .screenshot-controls button:hover {
+        background: var(--bg-hover);
+      }
+      .screenshot-controls button:focus-visible,
+      .screenshot-viewport:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: -2px;
+      }
+      .screenshot-viewport {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow: auto;
+        padding: 16px;
+        background: #151515;
+      }
+      .screenshot-viewport img {
+        display: block;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        margin: 0 auto;
+      }
+      .screenshot-hint {
+        margin: 0;
+        padding: 8px 16px;
+        font-size: 12px;
         color: var(--text-muted);
         flex: 0 0 auto;
       }
@@ -637,7 +748,7 @@
         border-left: 1px solid var(--border);
         padding-left: 16px;
         max-height: calc(100vh - 100px);
-        overflow-auto: auto;
+        overflow-y: auto;
       }
       .onpage-toc .otoc-title {
         text-transform: uppercase;
@@ -731,6 +842,13 @@
 
       /* Print */
       @media print {
+        .screenshot-dialog,
+        .screenshot-trigger::after {
+          display: none !important;
+        }
+        body.screenshot-open {
+          overflow: visible;
+        }
         .sidebar,
         .topbar,
         .onpage-toc {
@@ -837,9 +955,34 @@
       </main>
     </div>
 
+    <dialog
+      class="screenshot-dialog"
+      id="screenshotDialog"
+      aria-labelledby="screenshotTitle"
+      aria-describedby="screenshotHint"
+    >
+      <div class="screenshot-header">
+        <h2 id="screenshotTitle">Screenshot</h2>
+        <div class="screenshot-controls">
+          <button type="button" id="screenshotClose" autofocus>Close</button>
+        </div>
+      </div>
+      <div
+        class="screenshot-viewport"
+        id="screenshotViewport"
+        role="region"
+        aria-label="Enlarged screenshot"
+        tabindex="0"
+      >
+        <img id="screenshotImage" alt="" decoding="async" />
+      </div>
+      <p class="screenshot-hint" id="screenshotHint">Press Escape or select Close to return to the guide.</p>
+    </dialog>
+
     <!-- ============================================================ -->
     <!-- guideData — edit ONLY this object to rewrite the entire guide. -->
     <!-- Each section.content is HTML.                                  -->
+    <!-- Give every heading a unique, explicit ID so shared links work. -->
     <!-- ============================================================ -->
     <script>
       const guideData = {
@@ -858,7 +1001,7 @@
             kind: "page",
             lede: "Orilla is your single pane of glass for registering, monitoring, and operating edge devices at scale. This guide covers everything you need to log in, set up your workspace, and start running operations.",
             content: `
-        <h2>Welcome</h2>
+        <h2 id="welcome">Welcome</h2>
         <p>The Orilla platform unifies device onboarding, fleet operations, image distribution, and live telemetry into a single, role-based workspace. This guide walks through every screen of the platform in the order you'll encounter them.</p>
         <p>If you're new, start with <a class="inline" href="#authentication">Authentication</a> to create your account. If you've already logged in once, jump to <a class="inline" href="#dashboard">Dashboard</a> to learn how to customize your monitoring view.</p>
         <div class="callout note">
@@ -892,39 +1035,39 @@
           <li>Please choose one of the two sign in method -LDAP or MFA.</li>
         </ol>
 
-        <h3><span class="anchor"></span>Sign up with MFA</h3>
+        <h3 id="sign-up-with-mfa"><span class="anchor"></span>Sign up with MFA</h3>
         <p>Choose <strong>MFA</strong> as your sign in option. Fill in your username, password and email.</p>
         <figure class="figure">
-          <img src="images/image2.png" alt="Orilla sign-up screen" loading="lazy" />
-          <figcaption><span class="label">Fig 1.1</span> Sign-up form with authentication type selection.</figcaption>
+          <img decoding="async" data-full-height="1972" data-full-width="3820" data-full-src="images/optimized/image2.webp" src="images/optimized/image2.preview.webp" width="1600" height="826" alt="Orilla sign-up screen" loading="lazy" />
+          <figcaption><span class="label">Fig 1.1</span> Sign-up form with authentication type selection</figcaption>
         </figure>
 
         <h4 id="license-key"><span class="anchor"></span>Enter license key</h4>
         <p>After registration, you'll be redirected to the License Key Verification screen. Enter the shared license key provided by your administrator and verify it.</p>
         <figure class="figure">
-          <img src="images/image5.png" alt="License key verification" loading="lazy" />
-          <figcaption><span class="label">Fig 1.2</span> License key verification.</figcaption>
+          <img decoding="async" data-full-height="1666" data-full-width="2940" data-full-src="images/optimized/image5.webp" src="images/optimized/image5.preview.webp" width="1600" height="907" alt="License key verification" loading="lazy" />
+          <figcaption><span class="label">Fig 1.2</span> License key verification</figcaption>
         </figure>
 
 
         <h4 id="otp"><span class="anchor"></span>OTP verification</h4>
         <p>Upon successful license validation, the system generates a 6-digit One-Time Password (OTP) and sends it to your registered email address. Enter the OTP to complete verification and activate your account.</p>
         <figure class="figure">
-          <img src="images/image6.png" alt="OTP verification" loading="lazy" />
-          <figcaption><span class="label">Fig 1.3</span> OTP verification screen.</figcaption>
+          <img decoding="async" data-full-height="1666" data-full-width="2940" data-full-src="images/optimized/image6.webp" src="images/optimized/image6.preview.webp" width="1600" height="907" alt="OTP verification" loading="lazy" />
+          <figcaption><span class="label">Fig 1.3</span> OTP verification screen</figcaption>
         </figure>
 
 
         <h4 id="login"><span class="anchor"></span>Log in</h4>
         <p>After successful sign-up, use your registered email and password to access the platform's full feature suite.</p>
         <figure class="figure">
-          <img src="images/image3.png" alt="Login screen" loading="lazy" />
-          <figcaption><span class="label">Fig 1.4</span> Standard login.</figcaption>
+          <img decoding="async" data-full-height="1986" data-full-width="3832" data-full-src="images/optimized/image3.webp" src="images/optimized/image3.preview.webp" width="1600" height="829" alt="Login screen" loading="lazy" />
+          <figcaption><span class="label">Fig 1.4</span> Standard login</figcaption>
         </figure>
 
-        <h3><span class="anchor"></span> Sign up with LDAP</h3>
+        <h3 id="sign-up-with-ldap"><span class="anchor"></span> Sign up with LDAP</h3>
         <p>The LDAP configuration step of the initial ORILLA sign-up flow, which comes after entering your license key and creating your admin account.</p>
-        <h4><span class="anchor"></span>On the account creation screen, under Authentication Type, select <strong>LDAP</strong>. Then fill in:</h4>
+        <h4 id="ldap-create-account"><span class="anchor"></span>On the account creation screen, under Authentication Type, select <strong>LDAP</strong>. Then fill in:</h4>
     
         <ul>
           <li>Username — the admin account username you want to create</li> 
@@ -934,11 +1077,11 @@
         <p>Click Create Account to proceed to LDAP server configuration.</p>
        
         <figure class="figure">
-          <img src="images/ldap_create.png" alt="LDAP SIGN-UP screen" loading="lazy" />
-          <figcaption><span class="label">Fig 1.5</span> LDAP Sign up screen.</figcaption>
+          <img decoding="async" data-full-height="1968" data-full-width="3840" data-full-src="images/optimized/ldap_create.webp" src="images/optimized/ldap_create.preview.webp" width="1600" height="820" alt="LDAP SIGN-UP screen" loading="lazy" />
+          <figcaption><span class="label">Fig 1.5</span> LDAP Sign up screen</figcaption>
         </figure>
 
-          <h4><span class="anchor"></span>You'll now see the LDAP Server configuration form. Fill in each field as follows:</h4>
+          <h4 id="ldap-server-configuration"><span class="anchor"></span>You'll now see the LDAP Server configuration form. Fill in each field as follows:</h4>
         <ul>
           <li>LDAP Server-Add Hostname or IP address of your LDAP/AD server</li>
           <li>LDAP Port- Port the LDAP service listens on</li>
@@ -947,12 +1090,12 @@
           <li>LDAP Username and password- Service account username and password used to bind to the directory</li>
         </ul>  
         <figure class="figure">
-          <img src="images/ldap_config.png" alt="LDAP configuration form" loading="lazy" />
-          <figcaption><span class="label">Fig 1.6</span> LDAP configuration form.</figcaption>
+          <img decoding="async" data-full-height="1980" data-full-width="3834" data-full-src="images/optimized/ldap_config.webp" src="images/optimized/ldap_config.preview.webp" width="1600" height="826" alt="LDAP configuration form" loading="lazy" />
+          <figcaption><span class="label">Fig 1.6</span> LDAP configuration form</figcaption>
         </figure>
       
 
-        <h4><span class="anchor"></span>Enable encryption. Under SSL Enabled, choose:</h4>
+        <h4 id="ldap-enable-encryption"><span class="anchor"></span>Enable encryption. Under SSL Enabled, choose:</h4>
         <ul>
           <li>Yes — encrypts the connection to your LDAP server</li>
           <li>No — connects over plain, unencrypted LDAP</li>
@@ -961,10 +1104,10 @@
        
 
 
-        <h4><span class="anchor"></span>Two options appear once SSL is enabled:</h4>
-        <h4>Option A — CA Certificate</h4>
+        <h4 id="ldap-certificate-options"><span class="anchor"></span>Two options appear once SSL is enabled:</h4>
+        <h4 id="ldap-ca-certificate">Option A — CA Certificate</h4>
         <p>Use this if your LDAP server's certificate is signed by a trusted Certificate Authority. No additional file uploads are required on this screen</p>
-        <h4>Option B — Client Certificate</h4>
+        <h4 id="ldap-client-certificate">Option B — Client Certificate</h4>
         <p>Use this for mutual TLS (mTLS), where the LDAP server requires user to present its own certificate. Selecting this option reveals two upload fields:</p>
         <ul>
           <li>Client Certificate-Your client certificate file</li>
@@ -972,40 +1115,40 @@
         </ul>
         <p>Click Choose file next to each field and select the corresponding file from your machine.</p>  
          <figure class="figure">
-          <img src="images/ldap_config_ssl.png" alt="LDAP configuration form" loading="lazy" />
-          <figcaption><span class="label">Fig 1.7</span> LDAP configuration form.</figcaption>
+          <img decoding="async" data-full-height="1990" data-full-width="3836" data-full-src="images/optimized/ldap_config_ssl.webp" src="images/optimized/ldap_config_ssl.preview.webp" width="1600" height="830" alt="LDAP configuration form" loading="lazy" />
+          <figcaption><span class="label">Fig 1.7</span> LDAP configuration form</figcaption>
         </figure>
 
 
 
-        <h4><span class="anchor"></span>Once all fields are filled in correctly, click Register to save the LDAP configuration. You'll be returned to the Sign In screen. Log in using:</h4>
+        <h4 id="ldap-register-and-sign-in"><span class="anchor"></span>Once all fields are filled in correctly, click Register to save the LDAP configuration. You'll be returned to the Sign In screen. Log in using:</h4>
         <ul>
           <li>Email or Username — the admin username you created in Step 1</li>
           <li>Password — the password you set in Step 1</li>
         </ul>
        <figure class="figure">
-          <img src="images/image3.png" alt="Login screen" loading="lazy" />
-          <figcaption><span class="label">Fig 1.8</span> Standard login.</figcaption>
+          <img decoding="async" data-full-height="1986" data-full-width="3832" data-full-src="images/optimized/image3.webp" src="images/optimized/image3.preview.webp" width="1600" height="829" alt="Login screen" loading="lazy" />
+          <figcaption><span class="label">Fig 1.8</span> Standard login</figcaption>
         </figure>
            
 
 
-        <h4><span class="anchor"></span>After signing in, navigate to Access Management. A default admin role listed under Roles, with a description of System Administrator will be added . From here you can:  </h4>
+        <h4 id="ldap-access-management"><span class="anchor"></span>After signing in, navigate to Access Management. A default admin role listed under Roles, with a description of System Administrator will be added . From here you can:  </h4>
         <ul>
           <li>Click Create Role to define additional roles with specific permissions</li>
           <li>Click Add User to invite more users — enter their Email or LDAP UID, assign a Role from the dropdown, then click Add User.</li>
         </ul>
         <figure class="figure">
-          <img src="images/ldap_access_mgnmt.png" alt="Access management" loading="lazy" />
-          <figcaption><span class="label">Fig 1.9</span>Access management.</figcaption>
+          <img decoding="async" data-full-height="1996" data-full-width="3838" data-full-src="images/optimized/ldap_access_mgnmt.webp" src="images/optimized/ldap_access_mgnmt.preview.webp" width="1600" height="832" alt="Access management" loading="lazy" />
+          <figcaption><span class="label">Fig 1.9</span>Access management</figcaption>
         </figure>
          <figure class="figure">
-          <img src="images/ldap_create_user.png" alt="Access management create user" loading="lazy" />
-          <figcaption><span class="label">Fig 1.10.1</span> Create User 1a.</figcaption>
+          <img decoding="async" data-full-height="1966" data-full-width="3830" data-full-src="images/optimized/ldap_create_user.webp" src="images/optimized/ldap_create_user.preview.webp" width="1600" height="821" alt="Access management create user" loading="lazy" />
+          <figcaption><span class="label">Fig 1.10.1</span> Create User 1a</figcaption>
         </figure>
          <figure class="figure">
-          <img src="images/ldap_create_user_2.png" alt="LDAP configuration form" loading="lazy" />
-          <figcaption><span class="label">Fig 1.10.2</span> Create User 1b.</figcaption>
+          <img decoding="async" data-full-height="1980" data-full-width="3840" data-full-src="images/optimized/ldap_create_user_2.webp" src="images/optimized/ldap_create_user_2.preview.webp" width="1600" height="825" alt="LDAP configuration form" loading="lazy" />
+          <figcaption><span class="label">Fig 1.10.2</span> Create User 1b</figcaption>
         </figure>
      
 
@@ -1027,8 +1170,8 @@
         </div>
         
         <figure class="figure">
-          <img src="images/image1a.png" alt="Forgot password flow" loading="lazy" />
-          <figcaption><span class="label">Fig 1.11</span> Password reset flow.</figcaption>
+          <img decoding="async" data-full-height="1698" data-full-width="3798" data-full-src="images/optimized/image1a.webp" src="images/optimized/image1a.preview.webp" width="1600" height="715" alt="Forgot password flow" loading="lazy" />
+          <figcaption><span class="label">Fig 1.11</span> Password reset flow</figcaption>
         </figure>
 
         <h2 id="change-password"><span class="anchor"></span>Change password</h2>
@@ -1038,12 +1181,12 @@
           <li>Click the Profile icon at the bottom of the navigation rail and select Change Password. Enter your new password, confirm it, and save the changes.</li>
         </ol>
         <figure class="figure">
-          <img src="images/changePassword1a.png"  alt="Change password flow 1a" loading="lazy" />
-          <figcaption><span class="label">Fig 1.12</span> Change password flow 1a.</figcaption>
+          <img decoding="async" data-full-height="259" data-full-width="835" data-full-src="images/optimized/changePassword1a.webp" src="images/optimized/changePassword1a.webp" width="835" height="259"  alt="Change password flow 1a" loading="lazy" />
+          <figcaption><span class="label">Fig 1.12</span> Change password flow 1a</figcaption>
         </figure>
        <figure class="figure">
-          <img src="images/changePassword1b.png" alt="Change password flow 2a" loading="lazy" />
-          <figcaption><span class="label">Fig 1.13</span> Change password flow 1b.</figcaption>
+          <img decoding="async" data-full-height="938" data-full-width="2462" data-full-src="images/optimized/changePassword1b.webp" src="images/optimized/changePassword1b.preview.webp" width="1600" height="610" alt="Change password flow 2a" loading="lazy" />
+          <figcaption><span class="label">Fig 1.13</span> Change password flow 1b</figcaption>
         </figure>
       `,
           },
@@ -1056,7 +1199,7 @@
             content: `
         <p>The Access Management module provides centralized control over who can access the Orilla platform and what actions they are authorized to perform. It enables administrators to create roles, assign permissions, and manage user access individually or in group to platform resources such as devices, fleets, and edge actions.</p>
 
-        <h2>The Access Management panel</h2>
+        <h2 id="the-access-management-panel">The Access Management panel</h2>
         <p>Navigate to the profile settings icon in the left sidebar to open <strong>Access Management</strong>.</p>
         <p>This page has two main sections-</p>
         <ul>
@@ -1064,11 +1207,11 @@
           <li><strong>Users and Groups</strong> — Shows which individual users or groups are mapped to the role selected above and lets you add new users via the <strong>Add User</strong>  button.</li>
         </ul>
         <figure class="figure">
-          <img src="images/access_management.png" alt="Access Management panel" loading="lazy" />
+          <img decoding="async" data-full-height="1636" data-full-width="3834" data-full-src="images/optimized/access_management.webp" src="images/optimized/access_management.preview.webp" width="1600" height="683" alt="Access Management panel" loading="lazy" />
           <figcaption><span class="label">Fig 2.1</span> Access Management panel</figcaption>
         </figure>
 
-        <h3>A. Creating a Role</h3>
+        <h3 id="a-creating-a-role">A. Creating a Role</h3>
         <ol class="steps">
           <li>Click <strong>Create Role</strong> on the Access Management page.</li>
           <li>On the Create a New Role screen, enter a Role Name and Role Description.</li>
@@ -1076,11 +1219,11 @@
           <li>Click Submit to save the role. It will now appear on the All-Roles table.</li>
         </ol>
         <figure class="figure">
-          <img src="images/create_role.png" alt="Create Role page" loading="lazy" />
+          <img decoding="async" data-full-height="1370" data-full-width="3840" data-full-src="images/optimized/create_role.webp" src="images/optimized/create_role.preview.webp" width="1600" height="571" alt="Create Role page" loading="lazy" />
           <figcaption><span class="label">Fig 2.2</span> Create Role page</figcaption>
         </figure>
 
-        <h3>B. Adding a User to a Role</h3>
+        <h3 id="b-adding-a-user-to-a-role">B. Adding a User to a Role</h3>
         <ol class="steps">
           <li>From the Access Management page, select the role you want to assign the user to.</li>
           <li>Click Add User in the Users and Groups panel.</li>
@@ -1088,20 +1231,20 @@
           <li>Confirm to add the user.</li>
         </ol>
         <figure class="figure">
-          <img src="images/add_user.png" alt="Add User page" loading="lazy" />
+          <img decoding="async" data-full-height="1040" data-full-width="3840" data-full-src="images/optimized/add_user.webp" src="images/optimized/add_user.preview.webp" width="1600" height="433" alt="Add User page" loading="lazy" />
           <figcaption><span class="label">Fig 2.3</span> Add User page</figcaption>
         </figure>
 
-        <h3>C. Account Activation</h3>
+        <h3 id="c-account-activation">C. Account Activation</h3>
         <ul>
           <li>Once the admin has added a new user's email address to a role, that user can complete their own account setup.</li>
           <li>They sign up with the same email the admin registered with them, set their own password, and verify their identity with an OTP before they can log in.</li>
         </ul>
         <figure class="figure">
-          <img src="images/user_activation.png" alt="User Activation page" loading="lazy" />
+          <img decoding="async" data-full-height="628" data-full-width="3604" data-full-src="images/optimized/user_activation.webp" src="images/optimized/user_activation.preview.webp" width="1600" height="279" alt="User Activation page" loading="lazy" />
           <figcaption><span class="label">Fig 2.4</span>User Activation page</figcaption>
         </figure> <figure class="figure">
-          <img src="images/sign_up_mfa.png" alt="Sign up with MFA" loading="lazy" />
+          <img decoding="async" data-full-height="1880" data-full-width="3838" data-full-src="images/optimized/sign_up_mfa.webp" src="images/optimized/sign_up_mfa.preview.webp" width="1600" height="784" alt="Sign up with MFA" loading="lazy" />
           <figcaption><span class="label">Fig 2.5</span>Sign up with MFA</figcaption>
         </figure>
         <ul>  
@@ -1109,47 +1252,47 @@
         </ul>
        
         <figure class="figure">
-          <img src="images/verify_email.png" alt="Verify the email address by adding the received OTP" loading="lazy" />
+          <img decoding="async" data-full-height="1700" data-full-width="3826" data-full-src="images/optimized/verify_email.webp" src="images/optimized/verify_email.preview.webp" width="1600" height="711" alt="Verify the email address by adding the received OTP" loading="lazy" />
           <figcaption><span class="label">Fig 2.6</span>Verify the email address by adding the received OTP</figcaption>
         </figure>
         <ul>  
           <li>The user enters the 6-digit code into the verification screen and clicks <strong>Verify Email</strong>, completing sign-up. Their account is now active with the role and permissions the admin assigned earlier.</li>
         </ul>
         <figure class="figure">
-          <img src="images/acc_verified.png" alt="Account Verified" loading="lazy" />
+          <img decoding="async" data-full-height="1536" data-full-width="3840" data-full-src="images/optimized/acc_verified.webp" src="images/optimized/acc_verified.preview.webp" width="1600" height="640" alt="Account Verified" loading="lazy" />
           <figcaption><span class="label">Fig 2.7</span>Account Verified</figcaption>
         </figure>
 
 
-        <h3>D. Group Access</h3>
+        <h3 id="d-group-access">D. Group Access</h3>
         <p>Instead of assigning a role to users one at a time, admins can also create a Group - a collection of users that all inherit the same role and permissions. This is useful for teams (e.g., a Dev team, a Support team) where everyone should have identical access.</p>
          <ul><li>From the Groups tab under Users and Groups, click <strong>Add Group</strong>.</li></ul>
        
         <figure class="figure">
-          <img src="images/add_group.png" alt="Add Group" loading="lazy" />
+          <img decoding="async" data-full-height="1796" data-full-width="3826" data-full-src="images/optimized/add_group.webp" src="images/optimized/add_group.preview.webp" width="1600" height="751" alt="Add Group" loading="lazy" />
           <figcaption><span class="label">Fig 2.8</span>Add Group page</figcaption>
         </figure>
         <ul><li>Opening a group (e.g., Dev 1) shows to assign a role, when it was created, how many users and permissions it has, and a full breakdown of permissions across Fleets, Edge Actions, and Devices. It also shows the Accessible Devices & Fleets the group can reach, and a User's panel for managing group membership.</li></ul>
        
         <figure class="figure">
-          <img src="images/group_view.png" alt="Group Details page" loading="lazy" />
+          <img decoding="async" data-full-height="1960" data-full-width="3838" data-full-src="images/optimized/group_view.webp" src="images/optimized/group_view.preview.webp" width="1600" height="817" alt="Group Details page" loading="lazy" />
           <figcaption><span class="label">Fig 2.9</span>Group Details page</figcaption>
         </figure> 
 
-        <h3>E. View and manage User Profile</h3>
-        <ul><li>Click a user from the Access Management page to open the User Details page, where you can view the user's profile, assigned role, permissions, and accessible devices and fleets.</ul></li>
+        <h3 id="e-view-and-manage-user-profile">E. View and manage User Profile</h3>
+        <ul><li>Click a user from the Access Management page to open the User Details page, where you can view the user's profile, assigned role, permissions, and accessible devices and fleets.</li></ul>
         <figure class="figure">
-          <img src="images/user_view.png" alt="User Profile page" loading="lazy" />
+          <img decoding="async" data-full-height="1790" data-full-width="3830" data-full-src="images/optimized/user_view.webp" src="images/optimized/user_view.preview.webp" width="1600" height="748" alt="User Profile page" loading="lazy" />
           <figcaption><span class="label">Fig 2.10</span>User Profile page</figcaption>
         </figure> 
-        <ul><li>Click the Edit icon next to the user's email or use the Role drop-down to assign a different role, which updates the user's personal-level permissions immediately.</ul></li>
+        <ul><li>Click the Edit icon next to the user's email or use the Role drop-down to assign a different role, which updates the user's personal-level permissions immediately.</li></ul>
        <figure class="figure">
-          <img src="images/change_user_role.png" alt="Change Role" loading="lazy" />
+          <img decoding="async" data-full-height="1866" data-full-width="3786" data-full-src="images/optimized/change_user_role.webp" src="images/optimized/change_user_role.preview.webp" width="1600" height="789" alt="Change Role" loading="lazy" />
           <figcaption><span class="label">Fig 2.11</span>Change Role</figcaption>
         </figure> 
-        <ul><li>The Accessible Devices & Fleets section lists all devices and fleets assigned directly to the user, along with any additional access inherited through group memberships.</ul></li>
+        <ul><li>The Accessible Devices & Fleets section lists all devices and fleets assigned directly to the user, along with any additional access inherited through group memberships.</li></ul>
        <figure class="figure">
-          <img src="images/user_roles_view.png" alt="User Device and Fleets by Role" loading="lazy" />
+          <img decoding="async" data-full-height="1804" data-full-width="3838" data-full-src="images/optimized/user_roles_view.webp" src="images/optimized/user_roles_view.preview.webp" width="1600" height="752" alt="User Device and Fleets by Role" loading="lazy" />
           <figcaption><span class="label">Fig 2.12</span>User Device and Fleets by Role</figcaption>
         </figure>  
           <div class="callout note">
@@ -1172,7 +1315,7 @@
             content: `
         <p>The Dashboard serves as the central command hub for monitoring platform activity. It provides real-time visibility into device overviews, orchestration deployments, and overall fleet health — all in one place.</p>
 
-        <h2>Customize your dashboard</h2>
+        <h2 id="customize-your-dashboard">Customize your dashboard</h2>
         <p>The Dashboard is fully configurable to match each user's monitoring priorities.</p>
         <ol class="steps">
           <li>Switch to <strong>Edit Mode</strong> using the Edit button to enter the customization state.</li>
@@ -1183,13 +1326,13 @@
         </ol>
 
         <figure class="figure">
-          <img src="images/imagea.png" alt="Customize the dashboard" loading="lazy" />
-          <figcaption><span class="label">Fig 3.1</span> Customize the dashboard layout.</figcaption>
+          <img decoding="async" data-full-height="486" data-full-width="901" data-full-src="images/optimized/imagea.webp" src="images/optimized/imagea.webp" width="901" height="486" alt="Customize the dashboard" loading="lazy" />
+          <figcaption><span class="label">Fig 3.1</span> Customize the dashboard layout</figcaption>
         </figure>
 
         <figure class="figure">
-          <img src="images/imageb.png" alt="Select dashboard widgets" loading="lazy" />
-          <figcaption><span class="label">Fig 3.2</span> Select widgets from the catalog.</figcaption>
+          <img decoding="async" data-full-height="508" data-full-width="901" data-full-src="images/optimized/imageb.webp" src="images/optimized/imageb.webp" width="901" height="508" alt="Select dashboard widgets" loading="lazy" />
+          <figcaption><span class="label">Fig 3.2</span> Select widgets from the catalog</figcaption>
         </figure>
 
         <div class="callout tip">
@@ -1220,7 +1363,7 @@
         <h2 id="devices"><span class="anchor"></span>Devices</h2>
         <p>The Devices section provides full lifecycle management of edge devices, encompassing three functional areas: <strong>Overview</strong>, <strong>Fleet</strong>, and <strong>Onboarding</strong>. These help administrators efficiently track device state, organize them, and perform configuration tasks at scale.</p>
 
-        <h3>Overview</h3>
+        <h3 id="overview">Overview</h3>
         <p>The overview is the initial screen which shows every edge device that has been registered on the
 Orilla platform –all in one place. It allows users to quickly check device health, apply filters based on
 attributes such as status, tags, or operating system, and switch between grid and list views to suit
@@ -1234,12 +1377,12 @@ different monitoring needs.
 this screen</li>
         </ul>
           <figure class="figure">
-          <img src="images/edge-management-device-overview.png" alt="Devices Overview" loading="lazy" />
-          <figcaption><span class="label">Fig 4.1.1</span> Devices Overview screen.</figcaption>
+          <img decoding="async" data-full-height="1980" data-full-width="3840" data-full-src="images/optimized/edge-management-device-overview.webp" src="images/optimized/edge-management-device-overview.preview.webp" width="1600" height="825" alt="Devices Overview" loading="lazy" />
+          <figcaption><span class="label">Fig 4.1.1</span> Devices Overview screen</figcaption>
         </figure>
 
 
-        <h3>Device Page Overview</h3>
+        <h3 id="device-page-overview">Device Page Overview</h3>
         <p>The Overview page provides a consolidated view of the selected edge device, allowing users to quickly assess device health, system details, security status, and operational information.</p>
         <p>Users are redirected to this page after selecting a specific device from the Device Fleet to view its complete device profile.</p>
 
@@ -1276,28 +1419,28 @@ this screen</li>
         </ul>
       
          <figure class="figure">
-          <img src="images/edge-management-selected-device-overview.png" alt="Selected device overview" loading="lazy" />
-          <figcaption><span class="label">Fig 4.1.2</span> Selected device overview.</figcaption>
+          <img decoding="async" data-full-height="1718" data-full-width="3834" data-full-src="images/optimized/edge-management-selected-device-overview.webp" src="images/optimized/edge-management-selected-device-overview.preview.webp" width="1600" height="717" alt="Selected device overview" loading="lazy" />
+          <figcaption><span class="label">Fig 4.1.2</span> Selected device overview</figcaption>
         </figure>
 
-        <h3>Telemetry</h3>
+        <h3 id="telemetry">Telemetry</h3>
         <p>The Telemetry tab gives you a real-time and historical view of how a device is performing across its key resources. It is the go-to screen when you want to understand whether a device is under stress, behaving normally, or showing signs of degradation.</p>
         <figure class="figure">
-          <img src="images/edge-management-device-telemetry.png" alt="Device telemetry" loading="lazy" />
-          <figcaption><span class="label">Fig 4.2</span> Device telemetry view.</figcaption>
+          <img decoding="async" data-full-height="1980" data-full-width="3838" data-full-src="images/optimized/edge-management-device-telemetry.webp" src="images/optimized/edge-management-device-telemetry.preview.webp" width="1600" height="825" alt="Device telemetry" loading="lazy" />
+          <figcaption><span class="label">Fig 4.2</span> Device telemetry view</figcaption>
         </figure>
 
-        <h3>Configure</h3>
+        <h3 id="configure">Configure</h3>
         <p>The Configure tab is where you control how the device communicates with the platform, what data it collects, and how it connects to your network. Changes here directly affect how the platform interacts with the device.</p>
         <figure class="figure">
-          <img src="images/edge-management-device-configure.png" alt="Device configure" loading="lazy" />
-          <figcaption><span class="label">Fig 4.3</span> Device configuration panel.</figcaption>
+          <img decoding="async" data-full-height="1986" data-full-width="3834" data-full-src="images/optimized/edge-management-device-configure.webp" src="images/optimized/edge-management-device-configure.preview.webp" width="1600" height="829" alt="Device configure" loading="lazy" />
+          <figcaption><span class="label">Fig 4.3</span> Device configuration panel</figcaption>
         </figure>
 
         <h2 id="fleet-management"><span class="anchor"></span>Fleet management</h2>
         <p>A <strong>Fleet</strong> is a logical group of edge devices with a shared context and purpose allowing you to manage deployments, upgrades, and rollbacks across multiple devices at once, saving time and reducing risk.</p>
 
-        <h3>A. Onboard devices</h3>
+        <h3 id="a-onboard-devices">A. Onboard devices</h3>
         <p>The Onboarding workflow enables administrators to register and provision edge devices either individually or in bulk. During onboarding, device information, authentication settings, and optional fleet associations are configured to initiate device setup and registration.</p>
         <p>The onboarding process consists of three steps:</p>
         <ol class="steps">
@@ -1351,8 +1494,8 @@ this screen</li>
         <p>This flexibility allows administrators to streamline onboarding for homogeneous environments or customize credentials for each device when required.</p>
 
         <figure class="figure">
-          <img src="images/edge-management-onboarding-general.png" alt="Onboarding — General configuration screen" loading="lazy" />
-          <figcaption><span class="label">Fig 4.4</span> General onboarding configuration screen.</figcaption>
+          <img decoding="async" data-full-height="1696" data-full-width="3840" data-full-src="images/optimized/edge-management-onboarding-general.webp" src="images/optimized/edge-management-onboarding-general.preview.webp" width="1600" height="707" alt="Onboarding — General configuration screen" loading="lazy" />
+          <figcaption><span class="label">Fig 4.4</span> General onboarding configuration screen</figcaption>
         </figure>
 
         <h4 id="onboarding-step-2">Step 2 — Advanced: Configure Authentication Settings</h4>
@@ -1361,8 +1504,8 @@ this screen</li>
        
 
         <figure class="figure">
-          <img src="images/edge-management-onboarding-advanced.png" alt="Advanced authentication configuration screen" loading="lazy" />
-          <figcaption><span class="label">Fig 4.5</span> Advanced authentication configuration screen.</figcaption>
+          <img decoding="async" data-full-height="1986" data-full-width="3840" data-full-src="images/optimized/edge-management-onboarding-advanced.webp" src="images/optimized/edge-management-onboarding-advanced.preview.webp" width="1600" height="828" alt="Advanced authentication configuration screen" loading="lazy" />
+          <figcaption><span class="label">Fig 4.5</span> Advanced authentication configuration screen</figcaption>
         </figure>
 
         <h4 id="onboarding-step-3">Step 3 — Summary: Review and Submit</h4>
@@ -1376,15 +1519,15 @@ this screen</li>
         </ul>
 
         <figure class="figure">
-          <img src="images/edge-management-onboarding-summary.png" alt="Onboarding summary and review screen" loading="lazy" />
-          <figcaption><span class="label">Fig 4.6</span> Onboarding summary and review screen.</figcaption>
+          <img decoding="async" data-full-height="1358" data-full-width="3834" data-full-src="images/optimized/edge-management-onboarding-summary.webp" src="images/optimized/edge-management-onboarding-summary.preview.webp" width="1600" height="567" alt="Onboarding summary and review screen" loading="lazy" />
+          <figcaption><span class="label">Fig 4.6</span> Onboarding summary and review screen</figcaption>
         </figure>
 
         <h4 id="onboarding-monitoring">Monitoring Onboarding Progress</h4>
         <p>After submission, the onboarding request appears in the Onboarding table. This table provides real-time visibility into the onboarding lifecycle and current status of each device. User can start, stop and retry the onboarding process throught the action button.</p>
  <figure class="figure">
-          <img src="images/edge-management-onboarding-table.png" alt="Start, Stop and Retry onboarding process" loading="lazy" />
-          <figcaption><span class="label">Fig 4.7</span> Start, Stop and Retry onboarding process.</figcaption>
+          <img decoding="async" data-full-height="1056" data-full-width="3836" data-full-src="images/optimized/edge-management-onboarding-table.webp" src="images/optimized/edge-management-onboarding-table.preview.webp" width="1600" height="440" alt="Start, Stop and Retry onboarding process" loading="lazy" />
+          <figcaption><span class="label">Fig 4.7</span> Start, Stop and Retry onboarding process</figcaption>
         </figure>
         <table>
           <thead>
@@ -1403,40 +1546,40 @@ this screen</li>
           <div class="cl-body"><div class="cl-title">Troubleshooting</div>Use the onboarding status to identify progress and troubleshoot any issues that occur during device registration.</div>
         </div>
 
-        <h3>B. View onboarded fleets</h3>
+        <h3 id="b-view-onboarded-fleets">B. View onboarded fleets</h3>
         <ul>
           <li>Once onboarding is submitted with fleet grouping enabled, the newly created fleet becomes immediately visible under <strong>Devices → Fleet</strong>.</li>
           <li>The Fleet page displays a card-based inventory of all fleets registered in the system.</li>
           <li>Fleets onboarded via the wizard appear here immediately after submission, with their device count reflecting the batch size from Step 1.</li>
         </ul>
 
-        <h3>C. Add a fleet</h3>
+        <h3 id="c-add-a-fleet">C. Add a fleet</h3>
         <p>The <strong>Add Fleet</strong> function provides an alternative path to fleet creation, allowing administrators to group already-onboarded devices into a new fleet without re-running the onboarding wizard.</p>
         <ol class="steps">
           <li>Navigate to <strong>Devices → Fleet</strong> and click <strong>+ Add Fleet</strong> in the top-left of the Fleet list page.</li>
           <li>Define a unique fleet name, optionally add an icon, and select devices from the list.</li>
         </ol>
         <figure class="figure">
-          <img src="images/edge-management-fleet-overview.png" alt="Add fleet — step 1" loading="lazy" />
-          <figcaption><span class="label">Fig 4.9</span> Fleet overview.</figcaption>
+          <img decoding="async" data-full-height="1348" data-full-width="3834" data-full-src="images/optimized/edge-management-fleet-overview.webp" src="images/optimized/edge-management-fleet-overview.preview.webp" width="1600" height="563" alt="Add fleet — step 1" loading="lazy" />
+          <figcaption><span class="label">Fig 4.8</span> Fleet overview</figcaption>
         </figure>
         <figure class="figure">
-          <img src="images/edge-management-fleet-create.png" alt="Add fleet — step 2" loading="lazy" />
-          <figcaption><span class="label">Fig 4.10</span> Create new fleet.</figcaption>
+          <img decoding="async" data-full-height="1368" data-full-width="3840" data-full-src="images/optimized/edge-management-fleet-create.webp" src="images/optimized/edge-management-fleet-create.preview.webp" width="1600" height="570" alt="Add fleet — step 2" loading="lazy" />
+          <figcaption><span class="label">Fig 4.9</span> Create new fleet</figcaption>
         </figure>
 
-        <h3>D. View fleet details</h3>
+        <h3 id="d-view-fleet-details">D. View fleet details</h3>
         <p>Click any fleet card to open its detail view.</p>
         <figure class="figure">
-          <img src="images/edge-management-fleet-details.png" alt="Fleet details" loading="lazy" />
-          <figcaption><span class="label">Fig 4.11</span> Fleet detail view.</figcaption>
+          <img decoding="async" data-full-height="1610" data-full-width="3840" data-full-src="images/optimized/edge-management-fleet-details.webp" src="images/optimized/edge-management-fleet-details.preview.webp" width="1600" height="671" alt="Fleet details" loading="lazy" />
+          <figcaption><span class="label">Fig 4.10</span> Fleet detail view</figcaption>
         </figure>
         <div class="callout note">
           <div class="cl-icon">ℹ</div>
           <div class="cl-body"><div class="cl-title">Good to know</div>Each device can be associated with a single fleet only.</div>
         </div>
 
-        <h3>E. Fleet health status</h3>
+        <h3 id="e-fleet-health-status">E. Fleet health status</h3>
         <p>Each fleet displays a <strong>Health Status</strong> that gives you an at-a-glance view of how well all devices in the group are performing. This score is calculated automatically from real device telemetry and categorized into health bands.</p>
         <div class="callout tip">
           <div class="cl-icon">★</div>
@@ -1467,7 +1610,7 @@ this screen</li>
         <h3 id="edge-actions-navigate"><span class="anchor"></span>Navigating to Edge Actions</h3>
         <ul>
           <li>In the left sidebar, locate the <strong>Edge Actions</strong> section .</li>
-          <li>Select the action type you want to work with: Orchestration, Encryption, System Upgrade, Custom, or Others.</li>
+          <li>Select the action type you want to work with: Orchestration, QSC, System Upgrade, Custom, or Others.</li>
           <li>Each section opens a list/table view showing all previously created actions of that type, with columns such as:</li>
             <ul>
               <li>Name – the action's identifier (click to open its details) </li>
@@ -1481,8 +1624,8 @@ this screen</li>
           <li>Click <strong>+Create</strong> (top right) to start a new action </li>
         </ul>
         <figure class="figure">
-          <img src="images/edge-actions-orchestration-overview.png" alt="Edge Action - List View" loading="lazy" />
-          <figcaption><span class="label">Fig 4.12</span>Edge Action - List View</figcaption>
+          <img decoding="async" data-full-height="1858" data-full-width="3834" data-full-src="images/optimized/edge-actions-orchestration-overview.webp" src="images/optimized/edge-actions-orchestration-overview.preview.webp" width="1600" height="775" alt="Edge Action - List View" loading="lazy" />
+          <figcaption><span class="label">Fig 4.11</span>Edge Action - List View</figcaption>
         </figure>
     
         <h3 id="edge-actions-creating-action"><span class="anchor"></span> Creating a New Action</h3>
@@ -1490,7 +1633,7 @@ this screen</li>
         <p><strong>General → Select Devices → Select Access </strong></p>
 
         <h5 id="edge-actions-general"><span class="anchor"></span>A. General</h5>
-        <p>Configure the core details of the action. Fields vary slightly by action type: <p>
+        <p>Configure the core details of the action. Fields vary slightly by action type: </p>
 
         <h4 id="edge-actions-common"><span class="anchor"></span>Common to all types:</h4>
         <ul>
@@ -1506,8 +1649,8 @@ this screen</li>
           <li>Use Deploy to push a new workload to devices, Upgrade to move an existing workload to a newer version, and Rollback to revert a workload to a prior version. </li>
         </ul>
         <figure class="figure">
-          <img src="images/edge-actions-general-configuration-orchestration.png" alt="General Configuration- Orchestration" loading="lazy" />
-          <figcaption><span class="label">Fig 4.13</span> General Configuration - Orchestration.</figcaption>
+          <img decoding="async" data-full-height="1966" data-full-width="3834" data-full-src="images/optimized/edge-actions-general-configuration-orchestration.webp" src="images/optimized/edge-actions-general-configuration-orchestration.preview.webp" width="1600" height="820" alt="General Configuration- Orchestration" loading="lazy" />
+          <figcaption><span class="label">Fig 4.12</span> General Configuration - Orchestration</figcaption>
         </figure>
 
         <h4 id="edge-actions-system-upgrade"><span class="anchor"></span>System Upgrade — Type option: OS Update (Bootc)</h4>
@@ -1517,8 +1660,8 @@ this screen</li>
        
         </ul>
         <figure class="figure">
-          <img src="images/edge-actions-general-configuration-system-upgrade.png" alt="General Configuration- System Upgrade" loading="lazy" />
-          <figcaption><span class="label">Fig 4.14</span> General Configuration - System Upgrade.</figcaption>
+          <img decoding="async" data-full-height="1808" data-full-width="3838" data-full-src="images/optimized/edge-actions-general-configuration-system-upgrade.webp" src="images/optimized/edge-actions-general-configuration-system-upgrade.preview.webp" width="1600" height="754" alt="General Configuration- System Upgrade" loading="lazy" />
+          <figcaption><span class="label">Fig 4.13</span> General Configuration - System Upgrade</figcaption>
         </figure>
 
         <h4 id="edge-actions-custom"><span class="anchor"></span>Custom — Type option: Custom</h4>
@@ -1528,8 +1671,8 @@ this screen</li>
        
         </ul>
         <figure class="figure">
-          <img src="images/edge-actions-general-configuration-custom.png" alt="General Configuration- Custom" loading="lazy" />
-          <figcaption><span class="label">Fig 4.15</span> General Configuration - Custom.</figcaption>
+          <img decoding="async" data-full-height="1824" data-full-width="3822" data-full-src="images/optimized/edge-actions-general-configuration-custom.webp" src="images/optimized/edge-actions-general-configuration-custom.preview.webp" width="1600" height="764" alt="General Configuration- Custom" loading="lazy" />
+          <figcaption><span class="label">Fig 4.14</span> General Configuration - Custom</figcaption>
         </figure>
    
         <h4 id="edge-actions-others"><span class="anchor"></span>Others — Type option: NBDE Deployment </h4>
@@ -1537,8 +1680,8 @@ this screen</li>
           <li>Deploys a Network-Bound Disk Encryption (NBDE) server/policy configuration to the selected target(s). They can auto-unlock using a Tang server  </li>
         </ul>
         <figure class="figure">
-          <img src="images/edge-actions-general-configuration-others.png" alt="General Configuration- Others" loading="lazy" />
-          <figcaption><span class="label">Fig 4.16</span> General Configuration - Others.</figcaption>
+          <img decoding="async" data-full-height="1472" data-full-width="3840" data-full-src="images/optimized/edge-actions-general-configuration-others.webp" src="images/optimized/edge-actions-general-configuration-others.preview.webp" width="1600" height="613" alt="General Configuration- Others" loading="lazy" />
+          <figcaption><span class="label">Fig 4.15</span> General Configuration - Others</figcaption>
         </figure>
      
         <div class="callout note">
@@ -1556,8 +1699,8 @@ this screen</li>
           <li>Click <strong>Back</strong> to return to Step 1, or <strong>Next</strong> to continue. </li>
         </ul>
         <figure class="figure">
-          <img src="images/edge-actions-select-devices.png" alt="Select the target devices for edge action execution" loading="lazy" />
-          <figcaption><span class="label">Fig 4.18</span>Select the target devices for edge action execution.</figcaption>
+          <img decoding="async" data-full-height="1352" data-full-width="3830" data-full-src="images/optimized/edge-actions-select-devices.webp" src="images/optimized/edge-actions-select-devices.preview.webp" width="1600" height="565" alt="Select the target devices for edge action execution" loading="lazy" />
+          <figcaption><span class="label">Fig 4.16</span>Select the target devices for edge action execution</figcaption>
         </figure>
 
         <h5 id="edge-actions-select-access"><span class="anchor"></span>C. Select Access</h5>
@@ -1567,8 +1710,8 @@ this screen</li>
           <li>Click Back to revise earlier steps, or submit to finalize and create the action </li>
         </ul>
         <figure class="figure">
-          <img src="images/edge-actions-select-access.png" alt="Select the users who should have access new edge action" loading="lazy" />
-          <figcaption><span class="label">Fig 4.19</span>Select the users who should have access new edge action -REQUIRED.</figcaption>
+          <img decoding="async" data-full-height="1142" data-full-width="3840" data-full-src="images/optimized/edge-actions-select-access.webp" src="images/optimized/edge-actions-select-access.preview.webp" width="1600" height="476" alt="Select the users who should have access new edge action" loading="lazy" />
+          <figcaption><span class="label">Fig 4.17</span>Select the users who should have access new edge action -REQUIRED</figcaption>
         </figure>
          <div class="callout note">
           <div class="cl-icon">ℹ</div>
@@ -1576,14 +1719,14 @@ this screen</li>
         </div>
       
 
-      <h4 id="edge-actions-qsc"><span class="anchor"></span>Quantum-Safe Channel (QSC)</h4>
+      <h3 id="edge-actions-qsc"><span class="anchor"></span>Quantum-Safe Channel (QSC)</h3>
        <p>Use the Quantum-Safe Channel page in Edge Management to check whether a device supports post-quantum encryption, create a QSC for it, and track rollout status across your edge fleet. </p>
         <p>The QSC has three parts: a <strong>Create New</strong> button at the top right, the <strong>Available QOR images</strong> lists the quantum-safe OS images available for deployment and compatibility checks, and the <strong>Deployed Devices</strong> table shows devices with their post-quantum cryptography (PQC) status tracking.</p>
        <figure class="figure">
-          <img src="images/edge-actions-qsc.png" alt="Quantum safe channel " loading="lazy" />
-          <figcaption><span class="label">Fig 4.20</span>Quantum safe channel .</figcaption>
+          <img decoding="async" data-full-height="1788" data-full-width="3840" data-full-src="images/optimized/edge-actions-qsc.webp" src="images/optimized/edge-actions-qsc.preview.webp" width="1600" height="745" alt="Quantum safe channel " loading="lazy" />
+          <figcaption><span class="label">Fig 4.18</span>Quantum safe channel</figcaption>
         </figure>
-        <h5 id="explore-details"><span class="anchor"></span>Creating a new QSC</h5>
+        <h5 id="edge-actions-qsc-creating"><span class="anchor"></span>Creating a new QSC</h5>
         <p>A QSC is created in two stages: check compatibility first, then create. </p>
         <ul>
           <li>Select <strong>Create New</strong> at the top right of the QSC page. The <strong>Create New QSC</strong> form opens </li>
@@ -1599,8 +1742,8 @@ this screen</li>
           <div class="cl-body"><div class="cl-title">Note</div>Always run the compatibility check first. The <strong>Create</strong> button appears in the Result panel only after a compatible result.</div>
         </div>
         <figure class="figure">
-          <img src="images/edge-actions-create-new-qsc.png" alt="Create new QSC " loading="lazy" />
-          <figcaption><span class="label">Fig 4.21</span>Create new QSC .</figcaption>
+          <img decoding="async" data-full-height="1616" data-full-width="3840" data-full-src="images/optimized/edge-actions-create-new-qsc.webp" src="images/optimized/edge-actions-create-new-qsc.preview.webp" width="1600" height="673" alt="Create new QSC " loading="lazy" />
+          <figcaption><span class="label">Fig 4.19</span>Create new QSC</figcaption>
         </figure>
 
 
@@ -1617,8 +1760,8 @@ this screen</li>
           <li>A Devices table listing each target device, its Last Updated time, and its current Status (e.g., Ongoing) </li>
         </ul>
         <figure class="figure">
-          <img src="images/explore-details-page.png" alt="Detail view of created edge action" loading="lazy" />
-          <figcaption><span class="label">Fig 4.22</span>Detail view of created edge action.</figcaption>
+          <img decoding="async" data-full-height="1778" data-full-width="3840" data-full-src="images/optimized/explore-details-page.webp" src="images/optimized/explore-details-page.preview.webp" width="1600" height="741" alt="Detail view of created edge action" loading="lazy" />
+          <figcaption><span class="label">Fig 4.20</span>Detail view of created edge action</figcaption>
         </figure>
 
         <h5 id="explore-execute-action"><span class="anchor"></span>B. Starting/Executing an Action</h5>
@@ -1627,8 +1770,8 @@ this screen</li>
           <li>A confirmation dialog — <strong>Execute Command</strong> </li>
         </ul>
         <figure class="figure">
-          <img src="images/explore-execute-action.png" alt="Execute the edge command" loading="lazy" />
-          <figcaption><span class="label">Fig 4.23</span>Execute the edge command.</figcaption>
+          <img decoding="async" data-full-height="1522" data-full-width="3840" data-full-src="images/optimized/explore-execute-action.webp" src="images/optimized/explore-execute-action.preview.webp" width="1600" height="634" alt="Execute the edge command" loading="lazy" />
+          <figcaption><span class="label">Fig 4.21</span>Execute the edge command</figcaption>
         </figure>
 
         <h5 id="explore-view-action"><span class="anchor"></span>C. Viewing Execution Progress</h5>
@@ -1639,8 +1782,8 @@ this screen</li>
           <li>Close the panel using the <strong>✕</strong> icon at the top right.  </li>
         </ul>
         <figure class="figure">
-          <img src="images/explore-view-action.png" alt="Execution progress panel" loading="lazy" />
-          <figcaption><span class="label">Fig 4.24</span>Execution progress panel.</figcaption>
+          <img decoding="async" data-full-height="1498" data-full-width="3838" data-full-src="images/optimized/explore-view-action.webp" src="images/optimized/explore-view-action.preview.webp" width="1600" height="624" alt="Execution progress panel" loading="lazy" />
+          <figcaption><span class="label">Fig 4.22</span>Execution progress panel</figcaption>
         </figure>
 
         <h5 id="explore-stop-action"><span class="anchor"></span>D. Stopping or Deleting an Action</h5>
@@ -1663,33 +1806,33 @@ this screen</li>
 
         <ul>
           <li><strong>Images</strong>: the catalog of available images, with details, system requirements and release history. </li>
-          <li><strong>Release History</strong>: the images already deployed on your system, with device counts, online/offline status and management actions.</li>
+          <li><strong>Installed</strong>: the images already deployed on your system, with device counts, online/offline status and management actions.</li>
         </ul>
-        <h3>Browsing Images</h3>
+        <h3 id="browsing-images">Browsing Images</h3>
         <p><strong>Each</strong> card shows a download arrow if the image can be downloaded, or a check mark if it's already available. Use <strong>Search</strong>, <strong>Tag</strong>, <strong>Sort</strong>, and <strong>Filter</strong> to find an image quickly, then select a card to open its details.</p>
         <figure class="figure">
-          <img src="images/image-catalog-browse-image.png" alt="Browsing Images" loading="lazy" />
-          <figcaption><span class="label">Fig 5.1</span>Browsing Images.</figcaption>
+          <img decoding="async" data-full-height="376" data-full-width="901" data-full-src="images/optimized/image-catalog-browse-image.webp" src="images/optimized/image-catalog-browse-image.webp" width="901" height="376" alt="Browsing Images" loading="lazy" />
+          <figcaption><span class="label">Fig 5.1</span>Browsing Images</figcaption>
         </figure>
-        <p>Selecting an image opens its detail page, which shows the name, description, tags, version, size, and release date. The page has three tabs: </p>
+        <p>Selecting an image opens its detail page, which shows the name, description, tags, version, size, and release date. The page has two tabs: </p>
         <ul>
           <li><strong>Overview</strong> shows the description and the <strong>System Requirements</strong> (OS, CPU, memory, storage, GPU) needed to run the image.</li> 
           <figure class="figure">
-            <img src="images/image-catalog-details.png" alt="Image details" loading="lazy" />
-            <figcaption><span class="label">Fig 5.2</span>Image Details.</figcaption>
+            <img decoding="async" data-full-height="1744" data-full-width="3840" data-full-src="images/optimized/image-catalog-details.webp" src="images/optimized/image-catalog-details.preview.webp" width="1600" height="727" alt="Image details" loading="lazy" />
+            <figcaption><span class="label">Fig 5.2</span>Image Details</figcaption>
           </figure>
           <li><strong>Release History</strong> lists all versions with their tags and release dates, newest first. Select a release card to switch to that version; the page updates to show its details.</li> 
           <figure class="figure">
-            <img src="images/image-catalog-release-history.png" alt="Release history " loading="lazy" />
-            <figcaption><span class="label">Fig 5.3</span>Release history.</figcaption>
+            <img decoding="async" data-full-height="1716" data-full-width="3840" data-full-src="images/optimized/image-catalog-release-history.webp" src="images/optimized/image-catalog-release-history.preview.webp" width="1600" height="715" alt="Release history " loading="lazy" />
+            <figcaption><span class="label">Fig 5.3</span>Release history</figcaption>
           </figure>
         </ul>
 
-        <h3>Viewing Installed Images</h3>
+        <h3 id="viewing-installed-images">Viewing Installed Images</h3>
         <p>Open <strong>Installed</strong> in the Image Catalog menu to see every image currently deployed. Each card shows the image name, its device count with online and offline status, and when it was last deployed.</p>
         <figure class="figure">
-            <img src="images/image-catalog-installed-page.png" alt="View and manage installed images on devices" loading="lazy" />
-            <figcaption><span class="label">Fig 5.4</span>View and manage installed images on devices.</figcaption>
+            <img decoding="async" data-full-height="1696" data-full-width="3836" data-full-src="images/optimized/image-catalog-installed-page.webp" src="images/optimized/image-catalog-installed-page.preview.webp" width="1600" height="707" alt="View and manage installed images on devices" loading="lazy" />
+            <figcaption><span class="label">Fig 5.4</span>View and manage installed images on devices</figcaption>
         </figure>
         <p>Select a card, to manage its devices. The page shows summary tiles for Devices, Online, Offline and Status. Below them, a searchable, sortable table lists each device with its version, install and modified dates, and status (<strong>Active</strong> or <strong>Device Offline</strong>).</p>
         <p>For each device you can: </p>
@@ -1698,8 +1841,8 @@ this screen</li>
           <li>Use the <strong>...</strong> menu in the Action column and choose Restart. </li>
         </ul>
          <figure class="figure">
-            <img src="images/image-catalog-installed-page-devices.png" alt="Devices associated with the selected installed image" loading="lazy" />
-            <figcaption><span class="label">Fig 5.5</span>Devices associated with the selected installed image.</figcaption>
+            <img decoding="async" data-full-height="1618" data-full-width="3840" data-full-src="images/optimized/image-catalog-installed-page-devices.webp" src="images/optimized/image-catalog-installed-page-devices.preview.webp" width="1600" height="674" alt="Devices associated with the selected installed image" loading="lazy" />
+            <figcaption><span class="label">Fig 5.5</span>Devices associated with the selected installed image</figcaption>
         </figure>
       `,
           },
@@ -1755,6 +1898,62 @@ this screen</li>
         const menuBtn = document.getElementById("menuBtn");
         const sidebar = document.getElementById("sidebar");
         const scrim = document.getElementById("scrim");
+        const screenshotDialog = document.getElementById("screenshotDialog");
+        const screenshotImage = document.getElementById("screenshotImage");
+        const screenshotTitle = document.getElementById("screenshotTitle");
+        const screenshotViewport = document.getElementById("screenshotViewport");
+        const screenshotClose = document.getElementById("screenshotClose");
+        let screenshotOpener = null;
+
+        function resetScreenshotViewport() {
+          screenshotViewport.scrollTop = 0;
+          screenshotViewport.scrollLeft = 0;
+        }
+
+        function prepareScreenshots() {
+          docEl.querySelectorAll(".figure img").forEach((img) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "screenshot-trigger";
+            button.setAttribute("aria-label", "Enlarge screenshot: " + img.alt);
+            button.setAttribute("aria-haspopup", "dialog");
+            button.setAttribute("aria-controls", "screenshotDialog");
+            img.replaceWith(button);
+            button.appendChild(img);
+            button.addEventListener("click", () => {
+              screenshotOpener = button;
+              const caption = button.closest("figure").querySelector("figcaption");
+              screenshotTitle.textContent = caption
+                ? caption.textContent.trim().replace(/\s+/g, " ")
+                    .replace(/^(Fig\s+\d+(?:\.\d+)+)\s*/, "$1 — ")
+                : img.alt;
+              screenshotImage.alt = img.alt;
+              screenshotImage.width = Number(img.dataset.fullWidth || img.width);
+              screenshotImage.height = Number(img.dataset.fullHeight || img.height);
+              screenshotImage.src = img.dataset.fullSrc || img.src;
+              resetScreenshotViewport();
+              screenshotDialog.showModal();
+              document.body.classList.add("screenshot-open");
+            });
+          });
+        }
+
+        screenshotClose.addEventListener("click", () => screenshotDialog.close());
+        screenshotDialog.addEventListener("click", (event) => {
+          if (event.target !== screenshotDialog) return;
+          const bounds = screenshotDialog.getBoundingClientRect();
+          if (
+            event.clientX < bounds.left || event.clientX > bounds.right ||
+            event.clientY < bounds.top || event.clientY > bounds.bottom
+          ) screenshotDialog.close();
+        });
+        screenshotDialog.addEventListener("close", () => {
+          document.body.classList.remove("screenshot-open");
+          screenshotImage.removeAttribute("src");
+          resetScreenshotViewport();
+          if (screenshotOpener?.isConnected) screenshotOpener.focus({ preventScroll: true });
+          screenshotOpener = null;
+        });
 
         // Build sidebar
         function renderSidebar() {
@@ -1770,6 +1969,7 @@ this screen</li>
 
         // Render the active section's full content
         function renderSection(id, skipScroll) {
+          if (screenshotDialog.open) screenshotDialog.close();
           const sec =
             guideData.sections.find((s) => s.id === id) ||
             guideData.sections[0];
@@ -1787,6 +1987,7 @@ this screen</li>
       ${sec.content}
     `;
           docEl.innerHTML = html;
+          prepareScreenshots();
 
           // Active state in sidebar
           document
@@ -1795,17 +1996,10 @@ this screen</li>
               n.classList.toggle("active", n.dataset.id === sec.id),
             );
 
-          // Build on-page TOC from h2/h3 in rendered content
+          // Build the TOC from explicit IDs shared with the hash router.
           onpageList.innerHTML = "";
-          const heads = docEl.querySelectorAll("h2, h3, h5");
+          const heads = docEl.querySelectorAll("h2[id], h3[id], h5[id]");
           heads.forEach((h) => {
-            // ensure it has an id
-            if (!h.id) {
-              h.id = h.textContent
-                .toLowerCase()
-                .replace(/[^a-z0-9]+/g, "-")
-                .replace(/^-|-$/g, "");
-            }
             const a = document.createElement("a");
             a.href = `#${h.id}`;
             a.textContent = h.textContent;
@@ -1927,9 +2121,12 @@ this screen</li>
           { rootMargin: "-80px 0px -70% 0px", threshold: 0 },
         );
 
-        // Re-attach observer when content rerenders
+        // Track the same headings as the TOC after content rerenders.
         const mo = new MutationObserver(() => {
-          docEl.querySelectorAll("h2, h3").forEach((h) => observer.observe(h));
+          observer.disconnect();
+          docEl
+            .querySelectorAll("h2[id], h3[id], h5[id]")
+            .forEach((h) => observer.observe(h));
         });
         mo.observe(docEl, { childList: true });
 
