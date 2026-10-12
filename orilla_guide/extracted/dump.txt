@@ -1,0 +1,156 @@
+[1] (null) ‘
+[9] (Normal)  Table of Contents 
+[18] [TABLE]
+[19] (Normal) The Orilla login screen is your entry point to the entire platform. It is built with a dark-themed interface and keeps the experience simple: enter your credentials and you are in. The platform also s
+[21] [TABLE]
+[22] (ListParagraph) Open the Orilla URL in the browser
+[23] (ListParagraph) You will land to login page. Select Sign Up if you are interacting with the platform for the first time.
+[24] (ListParagraph) A registration form is presented. Fill the username, email id, password and select preferred authentication method (e.g. MFA)
+[26] [IMG] /media/image2.png
+[28] (null) 1.SIgn Up
+[30] (ListParagraph) You will be redirected to the License Key Verification screen. Enter the shared License Key and verify
+[31] [IMG] /media/image5.png
+[33] (null) 2. Enter License Key 
+[34] (ListParagraph) Upon successful license validation, the system generates a 6-digit One-Time Password (OTP) and sends it to your registered email address.
+[35] (ListParagraph) Enter the OTP to complete the verification and activate your account.
+[37] [IMG] /media/image6.png
+[39] (null) 3.OTP Verification 
+[40] [TABLE]
+[41] (Normal) After successful Sign up, use your official registered email and password to access platform’s full features suite.
+[42] [IMG] /media/image3.png
+[44] (null) 4.Login
+[45] [TABLE]
+[46] (Normal) If you cannot recall your password, use the self-service reset flow built into the login screen:
+[47] (ListParagraph) Click on the “Forgot Password”? link located below the password field.
+[48] (ListParagraph) A prompt will appear to request the email address associated with your account. Enter the correct email and submit it.
+[50] [IMG] /media/image1a.png
+[53] (null) 5.Forget Password
+[54] (ListParagraph) Orilla will send a password reset link to the provided email address
+[55] (ListParagraph) Click the link in your inbox to access the password reset page. Set and confirm your new password.
+[56] (ListParagraph) Once the reset is complete, return to the login screen and sign in using your new credentials.
+[57] [TABLE]
+[61] [TABLE]
+[62] (Normal) User Management governs access to the Orilla platform through a role-based permission model. This ensures that each user operates within a clearly defined scope of authority, maintaining security and 
+[64] [TABLE]
+[65] (Normal) The platform support two primary roles-
+[67] (null) ADMINFull platform access. Administrators can manage users, assign roles, configure system settings, and oversee all devices and operations across the platform. OBSERVERRead-only access. Observers can
+[68] (null) The User Management panel is accessible from the bottom-right user icon in the navigation bar. Once opened, the panel provides the following administrative actions:
+[69] [IMG] /media/image9.png
+[72] (ListParagraph) Change Password: Update the password for the currently authenticated user to maintain account security compliance.
+[73] (ListParagraph) Add User: Create new user accounts and assign appropriate roles or permissions based on the user's responsibilities.
+[74] (ListParagraph) All Users: View and manage the complete list of registered users within the platform, including their assigned roles and account status.
+[83] [TABLE]
+[84] (Normal) The Dashboard serves as the central command hub for monitoring platform activity. It provides real-time visibility into device overviews, orchestration deployments, model performance summaries, and ov
+[86] [TABLE]
+[87] (Normal) The Dashboard is fully configurable to match each user's monitoring priorities:
+[88] (ListParagraph) Switch to Edit Mode using the Edit button to enter the customization state.
+[89] (ListParagraph) Add or remove widgets from the Widget Catalog to tailor the information displayed.
+[91] [IMG] /media/imagea.png
+[93] (Normal) 1.Customize the dashboard
+[95] (ListParagraph) Drag and reposition chart elements to arrange the layout according to your preference
+[97] [IMG] /media/imageb.png
+[99] (Normal) 2.Select dashboard widgets
+[101] (ListParagraph) Click Save to apply and persist in your changes.
+[102] (ListParagraph) Use the Clear All option to reset the dashboard entirely and rebuild it from scratch
+[122] [TABLE]
+[123] (null) The Edge Management module is the operational core of the Orilla platform. It provides the service necessary to register, monitor, group, and command edge devices across the enterprise. The module is 
+[124] [TABLE]
+[125] (Normal) The Devices section provides full lifecycle management of edge devices, encompassing three functional areas: Overview, Fleet, and Onboarding. These areas are designed to help administrators efficientl
+[126] (Heading3) 1.1 Overview
+[127] (Normal) The overview is the initial screen which shows every edge device that has been registered on the Orilla platform –all in one place. It allows users to quickly check device health, apply filters based 
+[128] (ListParagraph) Each device entry displays essential metadata including name, IP address, status (Online/Offline), and associated tags.
+[129] (ListParagraph) Quick actions such as editing, tagging, or viewing detailed metrics are accessible directly from this screen
+[131] [IMG] /media/imagec.png
+[133] (Normal) 1.Overview
+[136] (Normal) Telemetry
+[137] [IMG] /media/imaged.png
+[139] (Normal) 2.Telemetry
+[140] (Normal) The Telemetry tab gives you a real-time and historical view of how a device is performing across its key resources. It is the go-to screen when you want to understand whether a device is under stress,
+[141] (Normal) Configure 
+[142] [IMG] /media/imagee.png
+[144] (Normal) 3.Configure
+[145] (Normal) The Configure tab is where you control how the device communicates with the platform, what data it collects, and how it connects to your network. Changes here directly affect how platform interacts wi
+[147] (Heading3) 1.2 Fleet Management
+[148] (null) A Fleet is a logical group of edge devices with a shared context (like location or purpose), allowing you to manage deployments, upgrades, and rollbacks across multiple devices at once—saving time and
+[149] [TABLE]
+[151] (Heading4) A.Onboard Devices
+[152] (ListParagraph) Navigate to Devices → Onboarding from the left sidebar. 
+[153] (ListParagraph) The onboarding wizard provisions new edge devices in bulk and, when fleet grouping is enabled, automatically registers them under a named fleet. 
+[154] (ListParagraph) The wizard is divided into three sequential steps: General, Advanced, and Summary
+[155] (Normal) Step 1-General Configuration
+[156] (Normal) Use the − and + stepper to define the device count for this onboarding session. The accepted range is 1 to 10 devices per session. Each unit corresponds to one provisioned device of entry.
+[157] (Normal) Add devices as Fleet? 
+[158] [IMG] /media/imagef.png
+[160] (Normal) A.Device Onboarding-General
+[161] (ListParagraph) Toggle this option to Yes to automatically group all provisioned devices under a single fleet upon submission
+[162] (ListParagraph) Setting this option to No provisions of devices as standalone, unaffiliated entities with no fleet assignment
+[163] (ListParagraph) Select the protocol used to connect to devices (e.g., SSH)
+[164] (ListParagraph) Use Common Credentials 
+[165] (ListParagraph) Yes: Apply one username/password to all devices 
+[166] (ListParagraph) No: Provide credentials per device in the summary table 
+[167] (Normal) Username / Password Enter shared SSH credentials when common credentials are enabled.
+[168] (Normal) Step 2 — Advanced Configuration
+[169] (Normal) Configure security, telemetry, data settings, network adjustments for the onboarded devices.
+[170] [IMG] /media/image10.png
+[172] (Normal) A.Device Onboarding-Advance Configuration
+[173] (Normal) Step 3 –Summary 
+[174] [IMG] /media/image11.png
+[175] (null) The Summary step renders an editable Devices Table containing one row per device, based on the count defined in Step 1. This is the final configuration checkpoint before provisioning is submitted to t
+[176] (Heading4) B. View Onboarded Fleets in the Fleet Section
+[177] (ListParagraph) Once onboarding is submitted with fleet grouping enabled, the newly created fleet becomes immediately visible under Devices → Fleet
+[178] (ListParagraph) The Fleet page displays a card-based inventory of all fleets registered in the system
+[179] (ListParagraph) Fleets onboarded via the wizard appear here immediately after submission with their device count reflecting the batch size provisioned in Step 1
+[180] (ListParagraph) Click on any fleet card to open its detail view
+[181] (ListParagraph) The Add Fleet function provides an alternative path to fleet creation, allowing administrators to group already-onboarded devices into a new fleet without re-running the onboarding wizard.
+[182] (ListParagraph) Navigate to Devices → Fleet and click + Add Fleet in the top-left of the Fleet list page.
+[183] (ListParagraph) Define a unique fleet name, optionally add an icon, and select devices from the list
+[184] [IMG] /media/image12.png
+[186] [IMG] /media/image13.png
+[188] (Normal) C.Add Fleet
+[191] [IMG] /media/image14.png
+[193] (Normal) View Fleet Details
+[194] (null) NOTE -Good to Know
+[195] (null) Devices can belong to multiple fleets if needed. For example, a device might be in both a 'Site A' fleet and a 'T2 Hardware' fleet, depending on how you want to organize operations.
+[196] [TABLE]
+[197] (null) Each fleet displays a Health Score that gives you an at-a-glance view of how well all devices in the group are performing. This score is calculated automatically from real device telemetry and categor
+[198] [TABLE]
+[199] (Normal) TIP Pro Tip
+[200] (null) Use the Fleet Health Score as your daily check. A quick scan of all fleets tells you the health of your entire edge environment in seconds.
+[201] [TABLE]
+[203] (Normal) The Create New Action wizard enables administrators to define, configure, and schedule operational actions that are dispatched to target edge devices or fleets.
+[204] (Normal) Step 1 — Create Action
+[205] (Normal) This step defines what operation the platform will perform, when it will execute, which workload it applies to, and which fleet or device set it targets.
+[206] (Normal) Action Types
+[207] [TABLE]
+[210] (ListParagraph) Select Action Type (Deploy, Upgrade, Update, etc.) 
+[211] (ListParagraph) Enter Action Name and set Schedule 
+[212] (ListParagraph) Choose Workload (if applicable) 
+[213] (ListParagraph) Select Target (Fleet or Manual) 
+[214] (ListParagraph) Pick Devices from the list
+[216] [IMG] /media/image16.png
+[218] [IMG] /media/image17.png
+[220] (Normal) A.Create New Edge Action
+[221] (Normal) Step 2- Explore 
+[222] (Normal) View, track, and manage all actions with their status, details, and execution progress in one place.
+[223] [IMG] /media/image18.png
+[225] (Normal) A.Explore
+[228] [TABLE]
+[229] (Normal) The Image Catalog is the repository of containerized applications, operating system images, and AI workloads available for deployment across edge devices. It provides a structured, searchable catalog 
+[230] (null) Each image entry in the catalog includes comprehensive metadata such as name, tags, description, system requirements, file size, and a complete release history — giving administrators everything they 
+[231] [TABLE]
+[232] (Normal) To locate and download an image for deployment, follow these steps:
+[233] (ListParagraph) Browse or search the Image Catalog to locate the desired image. Images are organized by type, including OS Images and AI Images.
+[234] (ListParagraph) Open the image profile to review its full metadata, including description, applicable tags, system requirements, and version release history.
+[235] (ListParagraph) Select the specific version you wish to download from the Release History panel.
+[236] (ListParagraph) Confirm your selection to initiate the download. The selected version will be retrieved and prepared for deployment to edge devices.
+[237] [IMG] /media/image19.png
+[238] (Normal) A.Image Catalog
+[242] [TABLE]
+[244] (Normal) The History panel provides users with quick, contextual visibility into their recent navigation and actions across the Orilla platform. It is designed to improve usability and support faster, more int
+[245] (null) Each entry in the History panel displays the module name and navigation context, allowing administrators and operators to easily retrace their steps and return directly to previously accessed pages — 
+[246] (null) The History panel is accessible via the clock icon in the left navigation bar and updates dynamically throughout each session to reflect the most recent platform activity.
+[248] [IMG] /media/image1b.png
+[250] [TABLE]
+[252] [TABLE]
+[254] (null) Orilla Edge Management Platform | End-User Guide | Version 1.0 | April 2026
+[255] (null) For support, contact Orilla platform administrator.

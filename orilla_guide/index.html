@@ -1,0 +1,1943 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Orilla — End-User Guide</title>
+    <style>
+      /* ---------- Tokens ---------- */
+      :root {
+        --bg: #ffffff;
+        --bg-soft: #fafaf9;
+        --bg-sidebar: #f7f7f5;
+        --bg-hover: #efeeec;
+        --bg-code: #f4f3f1;
+        --border: #e9e8e4;
+        --border-strong: #d9d8d3;
+        --text: #2b2a26;
+        --text-muted: #6b6a64;
+        --text-faint: #9a988f;
+        --accent: #2f6f5e; /* deep teal — original, not branded */
+        --accent-soft: #e7f0ec;
+        --warn-bg: #fdf6e3;
+        --warn-border: #ecdcb0;
+        --warn-text: #6b5a1b;
+        --info-bg: #eef3f7;
+        --info-border: #cfdbe6;
+        --info-text: #355370;
+        --shadow:
+          0 1px 0 rgba(15, 15, 15, 0.04), 0 4px 24px rgba(15, 15, 15, 0.04);
+        --radius: 6px;
+        --sans:
+          ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Helvetica Neue", Helvetica, Arial, sans-serif;
+        --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: var(--sans);
+        color: var(--text);
+        background: var(--bg);
+        font-size: 16px;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        font-family: inherit;
+      }
+
+      /* ---------- App Shell ---------- */
+      .app {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        min-height: 100vh;
+      }
+
+      /* ---------- Sidebar ---------- */
+      .sidebar {
+        background: var(--bg-sidebar);
+        border-right: 1px solid var(--border);
+        height: 100vh;
+        position: sticky;
+        top: 0;
+        overflow-y: auto;
+        padding: 20px 14px 32px;
+        font-size: 14px;
+      }
+      .sidebar::-webkit-scrollbar {
+        width: 8px;
+      }
+      .sidebar::-webkit-scrollbar-thumb {
+        background: var(--border-strong);
+        border-radius: 8px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 8px 18px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 14px;
+      }
+      .brand-mark {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        background: var(--accent);
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 0.02em;
+      }
+      .brand-name {
+        font-weight: 600;
+        color: var(--text);
+        letter-spacing: -0.01em;
+      }
+      .brand-sub {
+        color: var(--text-muted);
+        font-size: 12px;
+        line-height: 1.3;
+      }
+
+      .nav-search {
+        width: 100%;
+        border: 1px solid var(--border);
+        background: #fff;
+        border-radius: var(--radius);
+        padding: 7px 10px 7px 30px;
+        font: 13px var(--sans);
+        color: var(--text);
+        margin-bottom: 16px;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239a988f' stroke-width='2.2'><circle cx='11' cy='11' r='7'/><path d='m20 20-3.5-3.5'/></svg>");
+        background-repeat: no-repeat;
+        background-position: 9px center;
+        outline: none;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+      }
+      .nav-search:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-soft);
+      }
+
+      .nav-section-title {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-faint);
+        padding: 14px 8px 6px;
+        font-weight: 600;
+      }
+      .nav-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .nav-item > a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px 8px;
+        border-radius: 5px;
+        color: var(--text-muted);
+        cursor: pointer;
+        line-height: 1.35;
+        transition:
+          background 0.12s,
+          color 0.12s;
+      }
+      .nav-item > a:hover {
+        background: var(--bg-hover);
+        color: var(--text);
+      }
+      .nav-item.active > a {
+        background: #fff;
+        color: var(--text);
+        font-weight: 600;
+        box-shadow: inset 0 0 0 1px var(--border);
+      }
+      .nav-item .nav-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: var(--border-strong);
+        flex: 0 0 auto;
+      }
+      .nav-item.active .nav-dot {
+        background: var(--accent);
+      }
+
+      .nav-sub {
+        list-style: none;
+        margin: 2px 0 4px 22px;
+        padding: 0;
+        border-left: 1px solid var(--border);
+      }
+      .nav-sub a {
+        display: block;
+        padding: 4px 10px;
+        color: var(--text-muted);
+        font-size: 13px;
+        border-radius: 4px;
+        margin-left: -1px;
+        border-left: 2px solid transparent;
+      }
+      .nav-sub a:hover {
+        color: var(--text);
+      }
+      .nav-sub a.active {
+        color: var(--text);
+        border-left-color: var(--accent);
+        font-weight: 500;
+      }
+
+      /* ---------- Main ---------- */
+      .main {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .topbar {
+        height: 56px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 24px;
+        position: sticky;
+        top: 0;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: saturate(140%) blur(6px);
+        z-index: 10;
+      }
+      .crumbs {
+        color: var(--text-muted);
+        font-size: 13px;
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        flex: 1;
+        min-width: 0;
+      }
+      .crumbs .sep {
+        color: var(--text-faint);
+      }
+      .crumbs .here {
+        color: var(--text);
+        font-weight: 500;
+      }
+      .topbar-actions {
+        display: flex;
+        gap: 6px;
+      }
+      .icon-btn {
+        width: 32px;
+        height: 32px;
+        display: grid;
+        place-items: center;
+        border: 1px solid transparent;
+        background: transparent;
+        border-radius: 6px;
+        cursor: pointer;
+        color: var(--text-muted);
+      }
+      .icon-btn:hover {
+        background: var(--bg-hover);
+        color: var(--text);
+      }
+
+      .menu-btn {
+        display: none;
+      }
+
+      .scrim {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(20, 20, 20, 0.35);
+        z-index: 40;
+      }
+      .scrim.show {
+        display: block;
+      }
+
+      .content-wrap {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 220px;
+        gap: 48px;
+        padding: 56px 64px 96px;
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      .doc {
+        max-width: 760px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      /* ---------- Document typography ---------- */
+      .doc h1 {
+        font-size: 40px;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        font-weight: 700;
+        margin: 0 0 8px;
+        color: var(--text);
+      }
+      .doc .lede {
+        color: var(--text-muted);
+        font-size: 17px;
+        line-height: 1.55;
+        margin: 0 0 8px;
+      }
+      .doc .meta-row {
+        display: flex;
+        gap: 16px;
+        color: var(--text-faint);
+        font-size: 13px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 18px;
+        margin-bottom: 36px;
+        margin-top: 18px;
+      }
+      .doc .meta-row span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .doc h2 {
+        font-size: 26px;
+        line-height: 1.25;
+        letter-spacing: -0.01em;
+        font-weight: 700;
+        margin: 56px 0 12px;
+        padding-top: 8px;
+        color: var(--text);
+        scroll-margin-top: 80px;
+      }
+      .doc h3 {
+        font-size: 19px;
+        line-height: 1.3;
+        font-weight: 600;
+        margin: 36px 0 10px;
+        color: var(--text);
+        scroll-margin-top: 80px;
+      }
+      .doc h4 {
+        font-size: 15px;
+        line-height: 1.35;
+        font-weight: 600;
+        margin: 24px 0 6px;
+        color: var(--text);
+        text-transform: none;
+      }
+      .doc p {
+        margin: 0 0 14px;
+      }
+      .doc ul,
+      .doc ol {
+        margin: 0 0 14px;
+        padding-left: 22px;
+      }
+      .doc li {
+        margin-bottom: 4px;
+      }
+      .doc li::marker {
+        color: var(--text-faint);
+      }
+      .doc strong {
+        font-weight: 600;
+        color: var(--text);
+      }
+      .doc code {
+        font-family: var(--mono);
+        font-size: 0.88em;
+        background: var(--bg-code);
+        padding: 1px 5px;
+        border-radius: 3px;
+        color: #b03737;
+      }
+      .doc a.inline {
+        color: var(--accent);
+        border-bottom: 1px solid currentColor;
+      }
+
+      /* Section anchor — invisible but offset for sticky topbar */
+      .anchor {
+        display: block;
+        height: 0;
+        visibility: hidden;
+        transform: translateY(-72px);
+      }
+
+      /* ---------- Components ---------- */
+      .figure {
+        margin: 18px 0 8px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--bg-soft);
+      }
+      .figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .figure figcaption {
+        font-size: 13px;
+        color: var(--text-muted);
+        padding: 10px 14px;
+        border-top: 1px solid var(--border);
+        background: #fff;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .figure figcaption .label {
+        font-family: var(--mono);
+        font-size: 11px;
+        background: var(--bg-code);
+        padding: 2px 6px;
+        border-radius: 3px;
+        color: var(--text-muted);
+        flex: 0 0 auto;
+      }
+
+      .callout {
+        display: flex;
+        gap: 12px;
+        border-radius: 8px;
+        padding: 14px 16px;
+        margin: 18px 0;
+        border: 1px solid;
+        line-height: 1.55;
+      }
+      .callout .cl-icon {
+        flex: 0 0 auto;
+        width: 22px;
+        height: 22px;
+        display: grid;
+        place-items: center;
+        margin-top: 1px;
+      }
+      .callout .cl-body {
+        font-size: 14.5px;
+      }
+      .callout .cl-title {
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
+      .callout.tip {
+        background: var(--accent-soft);
+        border-color: #c8ddd3;
+        color: #1f4a3e;
+      }
+      .callout.tip .cl-title {
+        color: #1f4a3e;
+      }
+      .callout.note {
+        background: var(--info-bg);
+        border-color: var(--info-border);
+        color: var(--info-text);
+      }
+      .callout.warn {
+        background: var(--warn-bg);
+        border-color: var(--warn-border);
+        color: var(--warn-text);
+      }
+
+      /* Table */
+      .doc table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 18px 0 22px;
+        font-size: 14px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .doc thead th {
+        text-align: left;
+        background: var(--bg-soft);
+        color: var(--text-muted);
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--border);
+      }
+      .doc tbody td {
+        padding: 12px 14px;
+        border-top: 1px solid var(--border);
+        vertical-align: top;
+      }
+      .doc tbody tr:first-child td {
+        border-top: none;
+      }
+
+      /* Role / pill chips */
+      .pill {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: var(--bg-code);
+        color: var(--text-muted);
+        letter-spacing: 0.03em;
+      }
+      .pill.admin {
+        background: #efe7f7;
+        color: #5a3a8c;
+      }
+      .pill.observer {
+        background: #e7f0ec;
+        color: #2f6f5e;
+      }
+      .pill.soon {
+        background: #f4f3f1;
+        color: #8a8780;
+        border: 1px dashed #d9d8d3;
+      }
+
+      /* Action-type cards with icon */
+      .at-card {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 14px 16px;
+        background: #fff;
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .at-card .at-icon {
+        flex: 0 0 auto;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        display: grid;
+        place-items: center;
+      }
+      .at-card.soon .at-icon {
+        background: #f4f3f1;
+        color: var(--text-faint);
+      }
+      .at-card .at-title {
+        font-weight: 600;
+        font-size: 14.5px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .at-card .at-body {
+        font-size: 13.5px;
+        color: var(--text-muted);
+        line-height: 1.5;
+        margin-top: 2px;
+      }
+      .at-card.soon .at-title {
+        color: var(--text-muted);
+      }
+
+      /* Steps */
+      .steps {
+        counter-reset: step;
+        list-style: none;
+        padding: 0;
+        margin: 14px 0 18px;
+      }
+      .steps > li {
+        counter-increment: step;
+        position: relative;
+        padding: 0 0 14px 38px;
+        margin-bottom: 0;
+      }
+      .steps > li::before {
+        content: counter(step);
+        position: absolute;
+        left: 0;
+        top: -2px;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: #fff;
+        border: 1px solid var(--border-strong);
+        color: var(--text);
+        font-weight: 600;
+        font-size: 13px;
+        display: grid;
+        place-items: center;
+      }
+      .steps > li:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        left: 13px;
+        top: 26px;
+        bottom: 0;
+        width: 1px;
+        background: var(--border);
+      }
+
+      /* Cards (action types etc.) */
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin: 16px 0 20px;
+      }
+      .info-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: #fff;
+      }
+      .info-card .ic-title {
+        font-weight: 600;
+        margin-bottom: 4px;
+        font-size: 14.5px;
+      }
+      .info-card .ic-body {
+        font-size: 14px;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
+
+      /* On-page TOC */
+      .onpage-toc {
+        position: sticky;
+        top: 80px;
+        align-self: start;
+        font-size: 13px;
+        border-left: 1px solid var(--border);
+        padding-left: 16px;
+        max-height: calc(100vh - 100px);
+        overflow-auto: auto;
+      }
+      .onpage-toc .otoc-title {
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 11px;
+        color: var(--text-faint);
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .onpage-toc a {
+        display: block;
+        color: var(--text-muted);
+        padding: 4px 0;
+        line-height: 1.4;
+      }
+      .onpage-toc a:hover {
+        color: var(--text);
+      }
+      .onpage-toc a.active {
+        color: var(--text);
+        font-weight: 500;
+      }
+      .onpage-toc a.h3 {
+        padding-left: 12px;
+        font-size: 12.5px;
+      }
+
+      .onpage-toc a.h5 {
+        padding-left: 26px;
+        font-size: 12px;
+      }
+
+      /* Footer */
+      .doc-footer {
+        margin-top: 64px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+        color: var(--text-faint);
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      /* Mobile */
+      @media (max-width: 1024px) {
+        .content-wrap {
+          grid-template-columns: 1fr;
+          padding: 36px 32px 80px;
+        }
+        .onpage-toc {
+          display: none;
+        }
+      }
+      @media (max-width: 760px) {
+        .app {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          position: fixed;
+          inset: 0 auto 0 0;
+          width: 280px;
+          transform: translateX(-100%);
+          transition: transform 0.25s ease;
+          z-index: 50;
+          box-shadow: 0 0 24px rgba(0, 0, 0, 0.08);
+        }
+        .sidebar.open {
+          transform: translateX(0);
+        }
+        .scrim.show {
+          display: block;
+        }
+        .menu-btn {
+          display: grid;
+        }
+        .topbar {
+          padding: 0 16px;
+        }
+        .content-wrap {
+          padding: 28px 20px 72px;
+        }
+        .doc h1 {
+          font-size: 32px;
+        }
+        .doc h2 {
+          font-size: 22px;
+        }
+      }
+
+      /* Print */
+      @media print {
+        .sidebar,
+        .topbar,
+        .onpage-toc {
+          display: none;
+        }
+        .app {
+          grid-template-columns: 1fr;
+        }
+        .content-wrap {
+          padding: 0;
+          max-width: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+        <div class="brand">
+          <svg
+            width="120"
+            height="32"
+            viewBox="0 0 433 93"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M46.432 92.896C37.984 92.896 30.2187 90.9333 23.136 87.008C16.1387 83.0827 10.5493 77.6213 6.368 70.624C2.272 63.5413 0.224 55.6053 0.224 46.816C0.224 38.0267 2.272 30.1333 6.368 23.136C10.5493 16.1387 16.1387 10.6773 23.136 6.752C30.2187 2.82667 37.984 0.863998 46.432 0.863998C54.88 0.863998 62.6027 2.82667 69.6 6.752C76.6827 10.6773 82.2293 16.1387 86.24 23.136C90.336 30.1333 92.384 38.0267 92.384 46.816C92.384 55.6053 90.336 63.5413 86.24 70.624C82.144 77.6213 76.5973 83.0827 69.6 87.008C62.6027 90.9333 54.88 92.896 46.432 92.896ZM46.432 72.928C53.6 72.928 59.3173 70.5387 63.584 65.76C67.936 60.9813 70.112 54.6667 70.112 46.816C70.112 38.88 67.936 32.5653 63.584 27.872C59.3173 23.0933 53.6 20.704 46.432 20.704C39.1787 20.704 33.376 23.0507 29.024 27.744C24.7573 32.4373 22.624 38.7947 22.624 46.816C22.624 54.752 24.7573 61.1093 29.024 65.888C33.376 70.5813 39.1787 72.928 46.432 72.928ZM150.385 92L131.697 58.08H126.449V92H104.561V2.144H141.297C148.38 2.144 154.396 3.38133 159.345 5.856C164.38 8.33066 168.134 11.744 170.609 16.096C173.084 20.3627 174.321 25.1413 174.321 30.432C174.321 36.4053 172.614 41.7387 169.201 46.432C165.873 51.1253 160.924 54.4533 154.353 56.416L175.089 92H150.385ZM126.449 42.592H140.017C144.028 42.592 147.014 41.6107 148.977 39.648C151.025 37.6853 152.049 34.912 152.049 31.328C152.049 27.9147 151.025 25.2267 148.977 23.264C147.014 21.3013 144.028 20.32 140.017 20.32H126.449V42.592ZM209.949 2.144V92H188.061V2.144H209.949ZM247.699 75.104H276.371V92H225.811V2.144H247.699V75.104ZM308.699 75.104H337.371V92H286.811V2.144H308.699V75.104ZM403.747 76.128H370.211L364.835 92H341.923L374.435 2.144H399.779L432.291 92H409.123L403.747 76.128ZM398.115 59.232L386.979 26.336L375.971 59.232H398.115Z"
+              fill="url(#paint0_linear_2_2)"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_2_2"
+                x1="444"
+                y1="46.5"
+                x2="-4"
+                y2="46.5"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#6327E7" />
+                <stop offset="0.5" stop-color="#083BAE" />
+                <stop offset="0.75" stop-color="#083BAE" />
+                <stop offset="1" stop-color="#028EB2" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <input
+          class="nav-search"
+          id="navSearch"
+          placeholder="Search the guide…"
+        />
+        <div class="nav-section-title">End-User Guide</div>
+        <ul class="nav-list" id="navList"></ul>
+        <div class="nav-section-title">Resources</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#appendix"
+              ><span class="nav-dot"></span><span>Glossary</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="#contact-support"
+              ><span class="nav-dot"></span><span>Contact support</span></a
+            >
+          </li>
+        </ul>
+      </aside>
+      <div class="scrim" id="scrim"></div>
+
+      <main class="main">
+        <header class="topbar">
+          <button
+            class="icon-btn menu-btn"
+            id="menuBtn"
+            aria-label="Open navigation"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <div class="crumbs">
+            <span>Guide</span>
+            <span class="sep">/</span>
+            <span class="here" id="crumbHere">Getting started</span>
+          </div>
+          <div class="topbar-actions"></div>
+        </header>
+
+        <div class="content-wrap">
+          <article class="doc" id="doc"></article>
+          <nav class="onpage-toc" id="onpageToc" aria-label="On this page">
+            <div class="otoc-title">On this page</div>
+            <div id="onpageTocList"></div>
+          </nav>
+        </div>
+      </main>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- guideData — edit ONLY this object to rewrite the entire guide. -->
+    <!-- Each section.content is HTML.                                  -->
+    <!-- ============================================================ -->
+    <script>
+      const guideData = {
+        title: "Orilla — End-User Guide",
+        subtitle:
+          "A complete walkthrough of the Orilla Edge Management Platform — from your first login to running fleet-wide actions across thousands of devices.",
+        meta: {
+          version: "4.0",
+          updated: "September 2026",
+          audience: "Administrators · Observers",
+        },
+        sections: [
+          {
+            id: "getting-started",
+            title: "Getting started",
+            kind: "page",
+            lede: "Orilla is your single pane of glass for registering, monitoring, and operating edge devices at scale. This guide covers everything you need to log in, set up your workspace, and start running operations.",
+            content: `
+        <h2>Welcome</h2>
+        <p>The Orilla platform unifies device onboarding, fleet operations, image distribution, and live telemetry into a single, role-based workspace. This guide walks through every screen of the platform in the order you'll encounter them.</p>
+        <p>If you're new, start with <a class="inline" href="#authentication">Authentication</a> to create your account. If you've already logged in once, jump to <a class="inline" href="#dashboard">Dashboard</a> to learn how to customize your monitoring view.</p>
+        <div class="callout note">
+          <div class="cl-icon">ℹ</div>
+          <div class="cl-body"><div class="cl-title">Before you begin</div>You'll need your organization's Orilla URL, an invitation email, and a one-time license key from your platform administrator.</div>
+        </div>
+      `,
+          },
+
+          {
+            id: "authentication",
+            title: "Authentication",
+            kind: "page",
+            lede: "Your entry point to the platform. Sign up once, then log in with your credentials. Self-service password reset is built in.",
+            children: [
+              "sign-up",
+              "license-key",
+              "otp",
+              "login",
+              "forgot-password",
+              "change-password",
+            ],
+            content: `
+        <p>The Orilla login screen is your entry point to the entire platform. It is built with a dark-themed interface and keeps the experience simple: enter your credentials and you are in. The platform also supports a <strong>Remember Me</strong> option so that returning users on trusted devices do not need to re-enter credentials every session.</p>
+
+        <h2 id="sign-up"><span class="anchor"></span>Sign up</h2>
+        <p>If this is your first time on the platform, follow the steps below to create your account.</p>
+        <ol class="steps">
+          <li>Open the Orilla URL in your browser.</li>
+          <li>You'll land on the login page. Select <strong>Sign Up</strong> to register.</li>
+          <li>Please choose one of the two sign in method -LDAP or MFA.</li>
+        </ol>
+
+        <h3><span class="anchor"></span>Sign up with MFA</h3>
+        <p>Choose <strong>MFA</strong> as your sign in option. Fill in your username, password and email.</p>
+        <figure class="figure">
+          <img src="images/image2.png" alt="Orilla sign-up screen" loading="lazy" />
+          <figcaption><span class="label">Fig 1.1</span> Sign-up form with authentication type selection.</figcaption>
+        </figure>
+
+        <h4 id="license-key"><span class="anchor"></span>Enter license key</h4>
+        <p>After registration, you'll be redirected to the License Key Verification screen. Enter the shared license key provided by your administrator and verify it.</p>
+        <figure class="figure">
+          <img src="images/image5.png" alt="License key verification" loading="lazy" />
+          <figcaption><span class="label">Fig 1.2</span> License key verification.</figcaption>
+        </figure>
+
+
+        <h4 id="otp"><span class="anchor"></span>OTP verification</h4>
+        <p>Upon successful license validation, the system generates a 6-digit One-Time Password (OTP) and sends it to your registered email address. Enter the OTP to complete verification and activate your account.</p>
+        <figure class="figure">
+          <img src="images/image6.png" alt="OTP verification" loading="lazy" />
+          <figcaption><span class="label">Fig 1.3</span> OTP verification screen.</figcaption>
+        </figure>
+
+
+        <h4 id="login"><span class="anchor"></span>Log in</h4>
+        <p>After successful sign-up, use your registered email and password to access the platform's full feature suite.</p>
+        <figure class="figure">
+          <img src="images/image3.png" alt="Login screen" loading="lazy" />
+          <figcaption><span class="label">Fig 1.4</span> Standard login.</figcaption>
+        </figure>
+
+        <h3><span class="anchor"></span> Sign up with LDAP</h3>
+        <p>The LDAP configuration step of the initial ORILLA sign-up flow, which comes after entering your license key and creating your admin account.</p>
+        <h4><span class="anchor"></span>On the account creation screen, under Authentication Type, select <strong>LDAP</strong>. Then fill in:</h4>
+    
+        <ul>
+          <li>Username — the admin account username you want to create</li> 
+          <li>Password — create a strong password</li> 
+          <li>Confirm Password — re-enter the same password</li>
+        </ul>
+        <p>Click Create Account to proceed to LDAP server configuration.</p>
+       
+        <figure class="figure">
+          <img src="images/ldap_create.png" alt="LDAP SIGN-UP screen" loading="lazy" />
+          <figcaption><span class="label">Fig 1.5</span> LDAP Sign up screen.</figcaption>
+        </figure>
+
+          <h4><span class="anchor"></span>You'll now see the LDAP Server configuration form. Fill in each field as follows:</h4>
+        <ul>
+          <li>LDAP Server-Add Hostname or IP address of your LDAP/AD server</li>
+          <li>LDAP Port- Port the LDAP service listens on</li>
+          <li>Base DN- The root distinguished name under which the platform will search for users (e.g dc=planetexpress,dc=com)</li>
+          <li>Bind DN- The distinguished name used to authenticate to the LDAP server (e.g cn=admin,dc=planetexpress,dc=com)</li>
+          <li>LDAP Username and password- Service account username and password used to bind to the directory</li>
+        </ul>  
+        <figure class="figure">
+          <img src="images/ldap_config.png" alt="LDAP configuration form" loading="lazy" />
+          <figcaption><span class="label">Fig 1.6</span> LDAP configuration form.</figcaption>
+        </figure>
+      
+
+        <h4><span class="anchor"></span>Enable encryption. Under SSL Enabled, choose:</h4>
+        <ul>
+          <li>Yes — encrypts the connection to your LDAP server</li>
+          <li>No — connects over plain, unencrypted LDAP</li>
+        </ul>
+        <p>If you select Yes, you'll be prompted to choose a Certificate Type.</p>     
+       
+
+
+        <h4><span class="anchor"></span>Two options appear once SSL is enabled:</h4>
+        <h4>Option A — CA Certificate</h4>
+        <p>Use this if your LDAP server's certificate is signed by a trusted Certificate Authority. No additional file uploads are required on this screen</p>
+        <h4>Option B — Client Certificate</h4>
+        <p>Use this for mutual TLS (mTLS), where the LDAP server requires user to present its own certificate. Selecting this option reveals two upload fields:</p>
+        <ul>
+          <li>Client Certificate-Your client certificate file</li>
+          <li>Client Key-The private key matching that certificate</li>
+        </ul>
+        <p>Click Choose file next to each field and select the corresponding file from your machine.</p>  
+         <figure class="figure">
+          <img src="images/ldap_config_ssl.png" alt="LDAP configuration form" loading="lazy" />
+          <figcaption><span class="label">Fig 1.7</span> LDAP configuration form.</figcaption>
+        </figure>
+
+
+
+        <h4><span class="anchor"></span>Once all fields are filled in correctly, click Register to save the LDAP configuration. You'll be returned to the Sign In screen. Log in using:</h4>
+        <ul>
+          <li>Email or Username — the admin username you created in Step 1</li>
+          <li>Password — the password you set in Step 1</li>
+        </ul>
+       <figure class="figure">
+          <img src="images/image3.png" alt="Login screen" loading="lazy" />
+          <figcaption><span class="label">Fig 1.8</span> Standard login.</figcaption>
+        </figure>
+           
+
+
+        <h4><span class="anchor"></span>After signing in, navigate to Access Management. A default admin role listed under Roles, with a description of System Administrator will be added . From here you can:  </h4>
+        <ul>
+          <li>Click Create Role to define additional roles with specific permissions</li>
+          <li>Click Add User to invite more users — enter their Email or LDAP UID, assign a Role from the dropdown, then click Add User.</li>
+        </ul>
+        <figure class="figure">
+          <img src="images/ldap_access_mgnmt.png" alt="Access management" loading="lazy" />
+          <figcaption><span class="label">Fig 1.9</span>Access management.</figcaption>
+        </figure>
+         <figure class="figure">
+          <img src="images/ldap_create_user.png" alt="Access management create user" loading="lazy" />
+          <figcaption><span class="label">Fig 1.10.1</span> Create User 1a.</figcaption>
+        </figure>
+         <figure class="figure">
+          <img src="images/ldap_create_user_2.png" alt="LDAP configuration form" loading="lazy" />
+          <figcaption><span class="label">Fig 1.10.2</span> Create User 1b.</figcaption>
+        </figure>
+     
+
+
+
+
+        <h2 id="forgot-password"><span class="anchor"></span>Forgot password</h2>
+        <p>If you cannot recall your password, use the self-service reset flow built into the login screen:</p>
+        <ol class="steps">
+          <li>Click <strong>Forgot Password?</strong> below the password field.</li>
+          <li>Enter the email address associated with your account.</li>
+          <li>Orilla sends a password reset link to that email.</li>
+          <li>Click the link in your inbox to access the reset page. Set and confirm your new password.</li>
+          <li>Once the reset is complete, return to the login screen and sign in with your new credentials.</li>
+        </ol>
+            <div class="callout note">
+          <div class="cl-icon">ℹ</div>
+          <div class="cl-body"><div class="cl-title">Note</div>The password reset link expires in 2 hours. If you miss the window, click 'Forgot your password?' again to request a fresh link.</div>
+        </div>
+        
+        <figure class="figure">
+          <img src="images/image1a.png" alt="Forgot password flow" loading="lazy" />
+          <figcaption><span class="label">Fig 1.11</span> Password reset flow.</figcaption>
+        </figure>
+
+        <h2 id="change-password"><span class="anchor"></span>Change password</h2>
+        <p>Use the Change Password option to update your account password at any time. Changing your password regularly helps keep your account secure</p>  
+      
+        <ol class="steps">
+          <li>Click the Profile icon at the bottom of the navigation rail and select Change Password. Enter your new password, confirm it, and save the changes.</li>
+        </ol>
+        <figure class="figure">
+          <img src="images/changePassword1a.png"  alt="Change password flow 1a" loading="lazy" />
+          <figcaption><span class="label">Fig 1.12</span> Change password flow 1a.</figcaption>
+        </figure>
+       <figure class="figure">
+          <img src="images/changePassword1b.png" alt="Change password flow 2a" loading="lazy" />
+          <figcaption><span class="label">Fig 1.13</span> Change password flow 1b.</figcaption>
+        </figure>
+      `,
+          },
+
+          {
+            id: "access-management",
+            title: "Access management",
+            kind: "page",
+            lede: "Role-based access control for secure and centralized user management.",
+            content: `
+        <p>The Access Management module provides centralized control over who can access the Orilla platform and what actions they are authorized to perform. It enables administrators to create roles, assign permissions, and manage user access individually or in group to platform resources such as devices, fleets, and edge actions.</p>
+
+        <h2>The Access Management panel</h2>
+        <p>Navigate to the profile settings icon in the left sidebar to open <strong>Access Management</strong>.</p>
+        <p>This page has two main sections-</p>
+        <ul>
+          <li><strong>All Roles</strong> — Lists every role created and associated info like number of users assigned and number of permissions granted. We can edit and delete roles as required.</li>
+          <li><strong>Users and Groups</strong> — Shows which individual users or groups are mapped to the role selected above and lets you add new users via the <strong>Add User</strong>  button.</li>
+        </ul>
+        <figure class="figure">
+          <img src="images/access_management.png" alt="Access Management panel" loading="lazy" />
+          <figcaption><span class="label">Fig 2.1</span> Access Management panel</figcaption>
+        </figure>
+
+        <h3>A. Creating a Role</h3>
+        <ol class="steps">
+          <li>Click <strong>Create Role</strong> on the Access Management page.</li>
+          <li>On the Create a New Role screen, enter a Role Name and Role Description.</li>
+          <li>Under Select Permissions, choose the specific permissions the role should have for Devices, Fleets, and Edge Actions or check Select All at the top-right to grant full access to every permission at once.</li>
+          <li>Click Submit to save the role. It will now appear on the All-Roles table.</li>
+        </ol>
+        <figure class="figure">
+          <img src="images/create_role.png" alt="Create Role page" loading="lazy" />
+          <figcaption><span class="label">Fig 2.2</span> Create Role page</figcaption>
+        </figure>
+
+        <h3>B. Adding a User to a Role</h3>
+        <ol class="steps">
+          <li>From the Access Management page, select the role you want to assign the user to.</li>
+          <li>Click Add User in the Users and Groups panel.</li>
+          <li>In the Add User dialog, enter the user's email address and select the role to assign from the dropdown (e.g., "Fleet Manager").</li>
+          <li>Confirm to add the user.</li>
+        </ol>
+        <figure class="figure">
+          <img src="images/add_user.png" alt="Add User page" loading="lazy" />
+          <figcaption><span class="label">Fig 2.3</span> Add User page</figcaption>
+        </figure>
+
+        <h3>C. Account Activation</h3>
+        <ul>
+          <li>Once the admin has added a new user's email address to a role, that user can complete their own account setup.</li>
+          <li>They sign up with the same email the admin registered with them, set their own password, and verify their identity with an OTP before they can log in.</li>
+        </ul>
+        <figure class="figure">
+          <img src="images/user_activation.png" alt="User Activation page" loading="lazy" />
+          <figcaption><span class="label">Fig 2.4</span>User Activation page</figcaption>
+        </figure> <figure class="figure">
+          <img src="images/sign_up_mfa.png" alt="Sign up with MFA" loading="lazy" />
+          <figcaption><span class="label">Fig 2.5</span>Sign up with MFA</figcaption>
+        </figure>
+        <ul>  
+          <li>Authentication email lands in the user's inbox with a 6-digit one-time password, valid for 5 minutes.</li>
+        </ul>
+       
+        <figure class="figure">
+          <img src="images/verify_email.png" alt="Verify the email address by adding the received OTP" loading="lazy" />
+          <figcaption><span class="label">Fig 2.6</span>Verify the email address by adding the received OTP</figcaption>
+        </figure>
+        <ul>  
+          <li>The user enters the 6-digit code into the verification screen and clicks <strong>Verify Email</strong>, completing sign-up. Their account is now active with the role and permissions the admin assigned earlier.</li>
+        </ul>
+        <figure class="figure">
+          <img src="images/acc_verified.png" alt="Account Verified" loading="lazy" />
+          <figcaption><span class="label">Fig 2.7</span>Account Verified</figcaption>
+        </figure>
+
+
+        <h3>D. Group Access</h3>
+        <p>Instead of assigning a role to users one at a time, admins can also create a Group - a collection of users that all inherit the same role and permissions. This is useful for teams (e.g., a Dev team, a Support team) where everyone should have identical access.</p>
+         <ul><li>From the Groups tab under Users and Groups, click <strong>Add Group</strong>.</li></ul>
+       
+        <figure class="figure">
+          <img src="images/add_group.png" alt="Add Group" loading="lazy" />
+          <figcaption><span class="label">Fig 2.8</span>Add Group page</figcaption>
+        </figure>
+        <ul><li>Opening a group (e.g., Dev 1) shows to assign a role, when it was created, how many users and permissions it has, and a full breakdown of permissions across Fleets, Edge Actions, and Devices. It also shows the Accessible Devices & Fleets the group can reach, and a User's panel for managing group membership.</li></ul>
+       
+        <figure class="figure">
+          <img src="images/group_view.png" alt="Group Details page" loading="lazy" />
+          <figcaption><span class="label">Fig 2.9</span>Group Details page</figcaption>
+        </figure> 
+
+        <h3>E. View and manage User Profile</h3>
+        <ul><li>Click a user from the Access Management page to open the User Details page, where you can view the user's profile, assigned role, permissions, and accessible devices and fleets.</ul></li>
+        <figure class="figure">
+          <img src="images/user_view.png" alt="User Profile page" loading="lazy" />
+          <figcaption><span class="label">Fig 2.10</span>User Profile page</figcaption>
+        </figure> 
+        <ul><li>Click the Edit icon next to the user's email or use the Role drop-down to assign a different role, which updates the user's personal-level permissions immediately.</ul></li>
+       <figure class="figure">
+          <img src="images/change_user_role.png" alt="Change Role" loading="lazy" />
+          <figcaption><span class="label">Fig 2.11</span>Change Role</figcaption>
+        </figure> 
+        <ul><li>The Accessible Devices & Fleets section lists all devices and fleets assigned directly to the user, along with any additional access inherited through group memberships.</ul></li>
+       <figure class="figure">
+          <img src="images/user_roles_view.png" alt="User Device and Fleets by Role" loading="lazy" />
+          <figcaption><span class="label">Fig 2.12</span>User Device and Fleets by Role</figcaption>
+        </figure>  
+          <div class="callout note">
+          <div class="cl-icon">ℹ</div>
+          <div class="cl-body"><div class="cl-title">Note</div>
+            <ul>
+              <li>At the personal level, a user can only be assigned one role directly. However, a user can be added to any number of groups, and each group carries its own role and scope. This means a user's effective access is the sum of their one personal role plus the roles and scopes of every group they belong to.</li>
+              <li>When a user is assigned multiple roles, permissions are cumulative—additional roles only grant extra permissions and never remove existing ones; if the same device is included in multiple role scopes, the user receives the highest applicable permission (for example, Modify overrides View), while each permission applies only within the scope defined by its respective role.</li>
+            </ul>
+          </div>
+        </div>
+        `,
+          },
+
+          {
+            id: "dashboard",
+            title: "Dashboard",
+            kind: "page",
+            lede: "Your central command hub for monitoring platform activity. Customizable widgets, real-time visibility.",
+            content: `
+        <p>The Dashboard serves as the central command hub for monitoring platform activity. It provides real-time visibility into device overviews, orchestration deployments, and overall fleet health — all in one place.</p>
+
+        <h2>Customize your dashboard</h2>
+        <p>The Dashboard is fully configurable to match each user's monitoring priorities.</p>
+        <ol class="steps">
+          <li>Switch to <strong>Edit Mode</strong> using the Edit button to enter the customization state.</li>
+          <li>Add or remove widgets from the <strong>Widget Catalog</strong> to tailor the information displayed.</li>
+          <li>Drag and reposition chart elements to arrange the layout to your preference.</li>
+          <li>Click <strong>Save</strong> to apply and persist your changes.</li>
+          <li>Use <strong>Clear All</strong> to reset the dashboard entirely and rebuild it from scratch.</li>
+        </ol>
+
+        <figure class="figure">
+          <img src="images/imagea.png" alt="Customize the dashboard" loading="lazy" />
+          <figcaption><span class="label">Fig 3.1</span> Customize the dashboard layout.</figcaption>
+        </figure>
+
+        <figure class="figure">
+          <img src="images/imageb.png" alt="Select dashboard widgets" loading="lazy" />
+          <figcaption><span class="label">Fig 3.2</span> Select widgets from the catalog.</figcaption>
+        </figure>
+
+        <div class="callout tip">
+          <div class="cl-icon">★</div>
+          <div class="cl-body"><div class="cl-title">Pro tip</div>Build a small set of widgets focused on the metrics you check daily. You can always pivot to deeper views by clicking through to a device or fleet.</div>
+        </div>
+      `,
+          },
+
+          {
+            id: "edge-management",
+            title: "Edge management",
+            kind: "page",
+            lede: "The operational core of Orilla — register, monitor, group, and command edge devices across the enterprise.",
+            children: [
+              "devices",
+              "fleet-management",
+              "actions",
+              "image-catalog",
+            ],
+            content: `
+        <p>The Edge Management module is the operational core of the Orilla platform. It provides the services necessary to register, monitor, group, and command edge devices across your enterprise. The module is split into two functional areas:</p>
+        <div class="card-grid">
+          <div class="info-card"><div class="ic-title">Devices</div><div class="ic-body">Lifecycle management — Overview, Fleet and Onboarding.</div></div>
+          <div class="info-card"><div class="ic-title">Edge Actions</div><div class="ic-body">Define, schedule, and dispatch operations to devices or fleets.</div></div>
+        </div>
+
+        <h2 id="devices"><span class="anchor"></span>Devices</h2>
+        <p>The Devices section provides full lifecycle management of edge devices, encompassing three functional areas: <strong>Overview</strong>, <strong>Fleet</strong>, and <strong>Onboarding</strong>. These help administrators efficiently track device state, organize them, and perform configuration tasks at scale.</p>
+
+        <h3>Overview</h3>
+        <p>The overview is the initial screen which shows every edge device that has been registered on the
+Orilla platform –all in one place. It allows users to quickly check device health, apply filters based on
+attributes such as status, tags, or operating system, and switch between grid and list views to suit
+different monitoring needs.
+</p>
+
+  <ul>
+          <li>Each device entry displays essential metadata including name, IP address, status
+(Online/Offline), and associated tags.</li>
+          <li>Quick actions such as editing, tagging, or viewing detailed metrics are accessible directly from
+this screen</li>
+        </ul>
+          <figure class="figure">
+          <img src="images/edge-management-device-overview.png" alt="Devices Overview" loading="lazy" />
+          <figcaption><span class="label">Fig 4.1.1</span> Devices Overview screen.</figcaption>
+        </figure>
+
+
+        <h3>Device Page Overview</h3>
+        <p>The Overview page provides a consolidated view of the selected edge device, allowing users to quickly assess device health, system details, security status, and operational information.</p>
+        <p>Users are redirected to this page after selecting a specific device from the Device Fleet to view its complete device profile.</p>
+
+        <p><strong>Device Summary</strong></p>
+        <p>The top section displays key information about the selected device, including:</p>
+        <ul>
+          <li>Device Name and current connectivity status</li>
+          <li>IP Address</li>
+          <li>Operating System and OS Version</li>
+          <li>Last Updated timestamp</li>
+          <li>CPU and Memory utilization</li>
+          <li>Device ID</li>
+          <li>SSH Port</li>
+          <li>Last Sync time</li>
+          <li>Delete Device</li>
+        </ul>
+        <p>This section provides a quick health and availability check of the device.</p>
+
+        <p><strong>Encryption Status</strong></p>
+        <p>The encryption indicator displays the current disk encryption state of the device.</p>
+        <ul>
+          <li><strong>Encrypted</strong> – Device storage is protected.</li>
+          <li><strong>Not Encrypted</strong> – Disk encryption is currently not enabled.</li>
+        </ul>
+
+        <p><strong>Navigation Tabs</strong></p>
+        <p>Users can switch between multiple device views:</p>
+        <ul>
+          <li><strong>General</strong> – Displays summary, alerts, tags, and hardware details.</li>
+          <li><strong>Workloads</strong> – Monitor deployed workloads and execution details.
+          <li><strong>Logs</strong> – Access device logs for troubleshooting and auditing. <span class="pill soon">Coming soon</span></li>
+          <li><strong>Action History</strong> – Review previously executed device operations.</li>
+          <li><strong>Access</strong> – Displays all users with access to the selected device along with their assigned permissions, enabling administrators to quickly review and verify device-level access..</li>
+        </ul>
+      
+         <figure class="figure">
+          <img src="images/edge-management-selected-device-overview.png" alt="Selected device overview" loading="lazy" />
+          <figcaption><span class="label">Fig 4.1.2</span> Selected device overview.</figcaption>
+        </figure>
+
+        <h3>Telemetry</h3>
+        <p>The Telemetry tab gives you a real-time and historical view of how a device is performing across its key resources. It is the go-to screen when you want to understand whether a device is under stress, behaving normally, or showing signs of degradation.</p>
+        <figure class="figure">
+          <img src="images/edge-management-device-telemetry.png" alt="Device telemetry" loading="lazy" />
+          <figcaption><span class="label">Fig 4.2</span> Device telemetry view.</figcaption>
+        </figure>
+
+        <h3>Configure</h3>
+        <p>The Configure tab is where you control how the device communicates with the platform, what data it collects, and how it connects to your network. Changes here directly affect how the platform interacts with the device.</p>
+        <figure class="figure">
+          <img src="images/edge-management-device-configure.png" alt="Device configure" loading="lazy" />
+          <figcaption><span class="label">Fig 4.3</span> Device configuration panel.</figcaption>
+        </figure>
+
+        <h2 id="fleet-management"><span class="anchor"></span>Fleet management</h2>
+        <p>A <strong>Fleet</strong> is a logical group of edge devices with a shared context and purpose allowing you to manage deployments, upgrades, and rollbacks across multiple devices at once, saving time and reducing risk.</p>
+
+        <h3>A. Onboard devices</h3>
+        <p>The Onboarding workflow enables administrators to register and provision edge devices either individually or in bulk. During onboarding, device information, authentication settings, and optional fleet associations are configured to initiate device setup and registration.</p>
+        <p>The onboarding process consists of three steps:</p>
+        <ol class="steps">
+          <li><strong>General</strong> – Configure basic onboarding information</li>
+          <li><strong>Advanced</strong> – Configure authentication and security settings</li>
+          <li><strong>Summary</strong> – Review and submit onboarding details</li>
+        </ol>
+
+        <h4 id="onboarding-step-1">Step 1 — General: Configure Basic Device Information</h4>
+        <p>This step defines the number of devices to be onboarded and optionally groups them into a fleet.</p>
+
+        <p><strong>1. Specify the Number of Devices to Onboard</strong></p>
+        <ul>
+          <li>Supported range: 1–20 devices</li>
+          <li>Use the <code>+</code> and <code>−</code> controls to increase or decrease the device count.</li>
+        </ul>
+
+        <p><strong>2. Add Devices as Fleet (Optional)</strong></p>
+        <p>Choose whether the onboarded devices should be associated with a fleet.</p>
+        <ul>
+          <li><strong>Yes</strong> – Creates a fleet and associates the devices with it.</li>
+          <li><strong>No</strong> – Devices are onboarded independently.</li>
+        </ul>
+        <p>If <strong>Yes</strong> is selected:</p>
+        <ul>
+          <li>Enter a unique Fleet Name.</li>
+          <li>Upload an icon to represent the fleet.</li>
+          <li>Save the fleet configuration.</li>
+        </ul>
+
+        <p><strong>3. Configure Device Naming</strong></p>
+        <p>Choose whether device names should be generated automatically.</p>
+        <ul>
+          <li><strong>Yes</strong> – Device names are generated automatically using a specified naming prefix.</li>
+          <li><strong>No</strong> – Device names must be entered manually during the onboarding process.</li>
+        </ul>
+
+        <p><strong>4. Provide Additional Configuration Details</strong></p>
+        <ul>
+          <li>Specify a <strong>Device Naming Prefix</strong> (used for auto-generated names).</li>
+          <li>Assign existing <strong>Tags</strong> or create new tags for device classification and organization.</li>
+          <li>Select the <strong>Authentication Type</strong> and connection protocol (for example, SSH) to be used during onboarding.</li>
+        </ul>
+
+         <p><strong>5. Credential Configuration</strong></p>
+        <p>Choose how authentication credentials will be applied:</p>
+        <ul>
+          <li><strong>Yes</strong> – Use the same username and password for all onboarded devices.</li>
+          <li><strong>No</strong> – Enter authentication credentials individually for each device.</li>
+        </ul>
+        <p>This flexibility allows administrators to streamline onboarding for homogeneous environments or customize credentials for each device when required.</p>
+
+        <figure class="figure">
+          <img src="images/edge-management-onboarding-general.png" alt="Onboarding — General configuration screen" loading="lazy" />
+          <figcaption><span class="label">Fig 4.4</span> General onboarding configuration screen.</figcaption>
+        </figure>
+
+        <h4 id="onboarding-step-2">Step 2 — Advanced: Configure Authentication Settings</h4>
+        <p>The Advanced step allows administrators to configure enhanced security policies, access controls, and system hardening measures before device specific edge actions.</p>
+
+       
+
+        <figure class="figure">
+          <img src="images/edge-management-onboarding-advanced.png" alt="Advanced authentication configuration screen" loading="lazy" />
+          <figcaption><span class="label">Fig 4.5</span> Advanced authentication configuration screen.</figcaption>
+        </figure>
+
+        <h4 id="onboarding-step-3">Step 3 — Summary: Review and Submit</h4>
+        <p>The Summary page displays the complete onboarding configuration before submission.</p>
+      
+        <p>You can perform the following actions:</p>
+        <ul>
+          <li>Verify Device table details.</li>
+          <li>Select <strong>Back</strong> to return to previous steps and make changes.</li>
+          <li>Select <strong>Submit</strong> to initiate the onboarding process.</li>
+        </ul>
+
+        <figure class="figure">
+          <img src="images/edge-management-onboarding-summary.png" alt="Onboarding summary and review screen" loading="lazy" />
+          <figcaption><span class="label">Fig 4.6</span> Onboarding summary and review screen.</figcaption>
+        </figure>
+
+        <h4 id="onboarding-monitoring">Monitoring Onboarding Progress</h4>
+        <p>After submission, the onboarding request appears in the Onboarding table. This table provides real-time visibility into the onboarding lifecycle and current status of each device. User can start, stop and retry the onboarding process throught the action button.</p>
+ <figure class="figure">
+          <img src="images/edge-management-onboarding-table.png" alt="Start, Stop and Retry onboarding process" loading="lazy" />
+          <figcaption><span class="label">Fig 4.7</span> Start, Stop and Retry onboarding process.</figcaption>
+        </figure>
+        <table>
+          <thead>
+            <tr><th style="width:220px">Status</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Pending</strong></td><td>The onboarding request has been created and queued for processing.</td></tr>
+            <tr><td><strong>Configuring</strong></td><td>The platform is applying the onboarding configuration to the target device.</td></tr>
+            <tr><td><strong>Checking Status</strong></td><td>The platform is validating device connectivity and deployment health.</td></tr>
+            <tr><td><strong>Failed to Authenticate</strong></td><td>Authentication failed while attempting to connect to the target device.</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout note">
+          <div class="cl-icon">ℹ</div>
+          <div class="cl-body"><div class="cl-title">Troubleshooting</div>Use the onboarding status to identify progress and troubleshoot any issues that occur during device registration.</div>
+        </div>
+
+        <h3>B. View onboarded fleets</h3>
+        <ul>
+          <li>Once onboarding is submitted with fleet grouping enabled, the newly created fleet becomes immediately visible under <strong>Devices → Fleet</strong>.</li>
+          <li>The Fleet page displays a card-based inventory of all fleets registered in the system.</li>
+          <li>Fleets onboarded via the wizard appear here immediately after submission, with their device count reflecting the batch size from Step 1.</li>
+        </ul>
+
+        <h3>C. Add a fleet</h3>
+        <p>The <strong>Add Fleet</strong> function provides an alternative path to fleet creation, allowing administrators to group already-onboarded devices into a new fleet without re-running the onboarding wizard.</p>
+        <ol class="steps">
+          <li>Navigate to <strong>Devices → Fleet</strong> and click <strong>+ Add Fleet</strong> in the top-left of the Fleet list page.</li>
+          <li>Define a unique fleet name, optionally add an icon, and select devices from the list.</li>
+        </ol>
+        <figure class="figure">
+          <img src="images/edge-management-fleet-overview.png" alt="Add fleet — step 1" loading="lazy" />
+          <figcaption><span class="label">Fig 4.9</span> Fleet overview.</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="images/edge-management-fleet-create.png" alt="Add fleet — step 2" loading="lazy" />
+          <figcaption><span class="label">Fig 4.10</span> Create new fleet.</figcaption>
+        </figure>
+
+        <h3>D. View fleet details</h3>
+        <p>Click any fleet card to open its detail view.</p>
+        <figure class="figure">
+          <img src="images/edge-management-fleet-details.png" alt="Fleet details" loading="lazy" />
+          <figcaption><span class="label">Fig 4.11</span> Fleet detail view.</figcaption>
+        </figure>
+        <div class="callout note">
+          <div class="cl-icon">ℹ</div>
+          <div class="cl-body"><div class="cl-title">Good to know</div>Each device can be associated with a single fleet only.</div>
+        </div>
+
+        <h3>E. Fleet health status</h3>
+        <p>Each fleet displays a <strong>Health Status</strong> that gives you an at-a-glance view of how well all devices in the group are performing. This score is calculated automatically from real device telemetry and categorized into health bands.</p>
+        <div class="callout tip">
+          <div class="cl-icon">★</div>
+          <div class="cl-body"><div class="cl-title">Pro tip</div>Use the Fleet Health Status as your daily check. A quick scan of all fleets tells you the health of your entire edge environment in seconds.</div>
+        </div>
+
+        <h2 id="edge-actions"><span class="anchor"></span>Edge Actions</h2>
+        <h3 id="edge-actions-overview"><span class="anchor"></span>Overview</h3>
+        <p>The Edge Actions section lets you deploy, configure, and manage operations on edge devices at scale. From the left navigation panel, under Edge Actions, you can access five action types:</p>
+
+        <table>
+          <thead><tr><th style="width:200px">Action Type</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Orchestration</strong></td>
+            <td>Deploy, upgrade, or roll back workloads/applications on edge devices (Type options: Deploy, Rollback, Upgrade)</td></tr>
+            <tr><td><strong>QSC</strong></td>
+            <td>Check whether an edge device supports post-quantum encryption and track PQC rollout status across your device or fleet</td></tr>
+            <tr><td><strong>System Upgrade</strong></td>
+            <td>Push OS-level updates to devices (Type option: OS Update (Bootc))</td></tr>
+            <tr><td><strong>Custom</strong></td>
+            <td>Run custom shell/scripted actions on target devices (Type option: Custom)</td></tr>
+            <tr><td><strong>Others</strong></td>
+            <td>Additional edge actions outside the core categories (Type option: NBDE Deployment)</td></tr>
+          </tbody>
+        </table>
+        <p>All five action types share the same <strong>3-step creation workflow</strong> and the same <strong>Action Details</strong> monitoring view, described below.</p>
+
+        <h3 id="edge-actions-navigate"><span class="anchor"></span>Navigating to Edge Actions</h3>
+        <ul>
+          <li>In the left sidebar, locate the <strong>Edge Actions</strong> section .</li>
+          <li>Select the action type you want to work with: Orchestration, Encryption, System Upgrade, Custom, or Others.</li>
+          <li>Each section opens a list/table view showing all previously created actions of that type, with columns such as:</li>
+            <ul>
+              <li>Name – the action's identifier (click to open its details) </li>
+              <li>Type – e.g., Deployment  </li>
+              <li>Application – workload deployed   </li>
+              <li>Version  </li>
+              <li>Added At / Started At – timestamps  </li>
+              <li>Status – e.g., 0/1 (devices completed / total), or - if not yet run  </li>
+            </ul>
+          <li>Use the Search bar to filter the list by name. </li>  
+          <li>Click <strong>+Create</strong> (top right) to start a new action </li>
+        </ul>
+        <figure class="figure">
+          <img src="images/edge-actions-orchestration-overview.png" alt="Edge Action - List View" loading="lazy" />
+          <figcaption><span class="label">Fig 4.12</span>Edge Action - List View</figcaption>
+        </figure>
+    
+        <h3 id="edge-actions-creating-action"><span class="anchor"></span> Creating a New Action</h3>
+        <p>Regardless of action type, creating a new action follows the same three steps:</p>
+        <p><strong>General → Select Devices → Select Access </strong></p>
+
+        <h5 id="edge-actions-general"><span class="anchor"></span>A. General</h5>
+        <p>Configure the core details of the action. Fields vary slightly by action type: <p>
+
+        <h4 id="edge-actions-common"><span class="anchor"></span>Common to all types:</h4>
+        <ul>
+          <li><strong>Type</strong> – Select the action type from the dropdown  </li>
+          <li><strong>Name</strong> – A unique name for the action </li>
+          <li><strong>Select Target</strong> – Choose the target device/fleet grouping this action applies to </li>
+        </ul>
+
+        <h4 id="edge-actions-orchestration"><span class="anchor"></span>Orchestration — Type options: Deploy, Upgrade and Revert workloads </h4>
+        <ul>
+          <li>Schedule – date/time to run the action (defaults to current date/time) </li>
+          <li>Select Workload – the application/workload to act on </li>
+          <li>Use Deploy to push a new workload to devices, Upgrade to move an existing workload to a newer version, and Rollback to revert a workload to a prior version. </li>
+        </ul>
+        <figure class="figure">
+          <img src="images/edge-actions-general-configuration-orchestration.png" alt="General Configuration- Orchestration" loading="lazy" />
+          <figcaption><span class="label">Fig 4.13</span> General Configuration - Orchestration.</figcaption>
+        </figure>
+
+        <h4 id="edge-actions-system-upgrade"><span class="anchor"></span>System Upgrade — Type option: OS Update (Bootc)</h4>
+        <ul>
+          <li>Upgrades the device operating system using bootc-based image updates on RHEL Image Mode </li>
+          <li><strong>Select Image</strong>– the OS image version to apply (e.g., RHEL Image Mode v9.7) </li>
+       
+        </ul>
+        <figure class="figure">
+          <img src="images/edge-actions-general-configuration-system-upgrade.png" alt="General Configuration- System Upgrade" loading="lazy" />
+          <figcaption><span class="label">Fig 4.14</span> General Configuration - System Upgrade.</figcaption>
+        </figure>
+
+        <h4 id="edge-actions-custom"><span class="anchor"></span>Custom — Type option: Custom</h4>
+        <ul>
+          <li>Schedule </li>
+          <li><strong>Custom Action</strong>– Free-text field to enter the custom script/command to execute </li>
+       
+        </ul>
+        <figure class="figure">
+          <img src="images/edge-actions-general-configuration-custom.png" alt="General Configuration- Custom" loading="lazy" />
+          <figcaption><span class="label">Fig 4.15</span> General Configuration - Custom.</figcaption>
+        </figure>
+   
+        <h4 id="edge-actions-others"><span class="anchor"></span>Others — Type option: NBDE Deployment </h4>
+        <ul>
+          <li>Deploys a Network-Bound Disk Encryption (NBDE) server/policy configuration to the selected target(s). They can auto-unlock using a Tang server  </li>
+        </ul>
+        <figure class="figure">
+          <img src="images/edge-actions-general-configuration-others.png" alt="General Configuration- Others" loading="lazy" />
+          <figcaption><span class="label">Fig 4.16</span> General Configuration - Others.</figcaption>
+        </figure>
+     
+        <div class="callout note">
+          <div class="cl-icon">ℹ</div>
+          <div class="cl-body"><div class="cl-title">Note</div>More operations will be added to the “other” sections as per requirement.</div>
+        </div>
+    
+        <p>Once all required field are filled, click <strong>Next</strong>.</p> 
+
+        <h5 id="edge-actions-select-devices"><span class="anchor"></span>B. Select Devices</h5>
+       
+        <ul>
+          <li>Browse available devices, each showing the device name, IP: port, and a status indicator </li>
+          <li>Click a device card to select it </li>
+          <li>Click <strong>Back</strong> to return to Step 1, or <strong>Next</strong> to continue. </li>
+        </ul>
+        <figure class="figure">
+          <img src="images/edge-actions-select-devices.png" alt="Select the target devices for edge action execution" loading="lazy" />
+          <figcaption><span class="label">Fig 4.18</span>Select the target devices for edge action execution.</figcaption>
+        </figure>
+
+        <h5 id="edge-actions-select-access"><span class="anchor"></span>C. Select Access</h5>
+        <ul>
+          <li>Choose which users can view and run this action from the list of available users </li>
+          <li>Click a user card to select/deselect them</li>
+          <li>Click Back to revise earlier steps, or submit to finalize and create the action </li>
+        </ul>
+        <figure class="figure">
+          <img src="images/edge-actions-select-access.png" alt="Select the users who should have access new edge action" loading="lazy" />
+          <figcaption><span class="label">Fig 4.19</span>Select the users who should have access new edge action -REQUIRED.</figcaption>
+        </figure>
+         <div class="callout note">
+          <div class="cl-icon">ℹ</div>
+          <div class="cl-body"><div class="cl-title">Note</div>  Select device and access will work for orchestration, System upgrade, custom and other section only  .</div>
+        </div>
+      
+
+      <h4 id="edge-actions-qsc"><span class="anchor"></span>Quantum-Safe Channel (QSC)</h4>
+       <p>Use the Quantum-Safe Channel page in Edge Management to check whether a device supports post-quantum encryption, create a QSC for it, and track rollout status across your edge fleet. </p>
+        <p>The QSC has three parts: a <strong>Create New</strong> button at the top right, the <strong>Available QOR images</strong> lists the quantum-safe OS images available for deployment and compatibility checks, and the <strong>Deployed Devices</strong> table shows devices with their post-quantum cryptography (PQC) status tracking.</p>
+       <figure class="figure">
+          <img src="images/edge-actions-qsc.png" alt="Quantum safe channel " loading="lazy" />
+          <figcaption><span class="label">Fig 4.20</span>Quantum safe channel .</figcaption>
+        </figure>
+        <h5 id="explore-details"><span class="anchor"></span>Creating a new QSC</h5>
+        <p>A QSC is created in two stages: check compatibility first, then create. </p>
+        <ul>
+          <li>Select <strong>Create New</strong> at the top right of the QSC page. The <strong>Create New QSC</strong> form opens </li>
+          <li>Set <strong>Type</strong>-<strong>Select device or fleet</strong>. </li>
+          <li>Choose the <strong>Device</strong>. </li>
+          <li>Choose the <strong>Encryption</strong> configuration. </li>
+          <li>Check for device compatibility.</li>
+          <li>Upon successful compatibility check ,select create in the result box to create the QSC</li>
+        </ul>
+
+        <div class="callout note">
+          <div class="cl-icon">ℹ</div>
+          <div class="cl-body"><div class="cl-title">Note</div>Always run the compatibility check first. The <strong>Create</strong> button appears in the Result panel only after a compatible result.</div>
+        </div>
+        <figure class="figure">
+          <img src="images/edge-actions-create-new-qsc.png" alt="Create new QSC " loading="lazy" />
+          <figcaption><span class="label">Fig 4.21</span>Create new QSC .</figcaption>
+        </figure>
+
+
+
+
+
+
+        <h3 id="explore"><span class="anchor"></span>Running and Monitoring an Action</h3>
+        <h5 id="explore-details"><span class="anchor"></span>A. Action Details Page</h5>
+        <p>Click any action's Name from the list view to open its Action Details page .</p>
+        <ul>
+          <li>Start, Stop, and Delete controls (top right)  </li>
+          <li>Added at and Scheduled Time timestamps </li>
+          <li>A Devices table listing each target device, its Last Updated time, and its current Status (e.g., Ongoing) </li>
+        </ul>
+        <figure class="figure">
+          <img src="images/explore-details-page.png" alt="Detail view of created edge action" loading="lazy" />
+          <figcaption><span class="label">Fig 4.22</span>Detail view of created edge action.</figcaption>
+        </figure>
+
+        <h5 id="explore-execute-action"><span class="anchor"></span>B. Starting/Executing an Action</h5>
+        <ul>
+          <li>Click <strong>Start</strong> to run the action. </li>
+          <li>A confirmation dialog — <strong>Execute Command</strong> </li>
+        </ul>
+        <figure class="figure">
+          <img src="images/explore-execute-action.png" alt="Execute the edge command" loading="lazy" />
+          <figcaption><span class="label">Fig 4.23</span>Execute the edge command.</figcaption>
+        </figure>
+
+        <h5 id="explore-view-action"><span class="anchor"></span>C. Viewing Execution Progress</h5>
+        <ul>
+          <li>Click on a device row (or the relevant status indicator) in the Devices table to open the Details side panel. </li>
+          <li>This panel shows a step-by-step execution timeline </li>
+          <li>Each step/sub-step shows a live status label (e.g., <strong>SUCCESS</strong>) as it completes</li>
+          <li>Close the panel using the <strong>✕</strong> icon at the top right.  </li>
+        </ul>
+        <figure class="figure">
+          <img src="images/explore-view-action.png" alt="Execution progress panel" loading="lazy" />
+          <figcaption><span class="label">Fig 4.24</span>Execution progress panel.</figcaption>
+        </figure>
+
+        <h5 id="explore-stop-action"><span class="anchor"></span>D. Stopping or Deleting an Action</h5>
+        <ul>
+          <li>Use <strong>Stop</strong> to halt an in-progress or scheduled action. </li>
+          <li>Use <strong>Delete</strong> to permanently remove the action from the list. </li>
+        </ul>
+
+      `,
+          },
+
+          {
+            id: "image-catalog",
+            title: "Image catalog",
+            kind: "page",
+            lede: "Repository of OS and AI workload images available for deployment across edge devices.",
+            content: `
+        <h2 id="image-catalog-overview"><span class="anchor"></span>Overview</h2>
+        <p>The Image Catalog is the part of Orilla where you find containerized workloads and see on which device they are deployed. It has two sections: </p>
+
+        <ul>
+          <li><strong>Images</strong>: the catalog of available images, with details, system requirements and release history. </li>
+          <li><strong>Release History</strong>: the images already deployed on your system, with device counts, online/offline status and management actions.</li>
+        </ul>
+        <h3>Browsing Images</h3>
+        <p><strong>Each</strong> card shows a download arrow if the image can be downloaded, or a check mark if it's already available. Use <strong>Search</strong>, <strong>Tag</strong>, <strong>Sort</strong>, and <strong>Filter</strong> to find an image quickly, then select a card to open its details.</p>
+        <figure class="figure">
+          <img src="images/image-catalog-browse-image.png" alt="Browsing Images" loading="lazy" />
+          <figcaption><span class="label">Fig 5.1</span>Browsing Images.</figcaption>
+        </figure>
+        <p>Selecting an image opens its detail page, which shows the name, description, tags, version, size, and release date. The page has three tabs: </p>
+        <ul>
+          <li><strong>Overview</strong> shows the description and the <strong>System Requirements</strong> (OS, CPU, memory, storage, GPU) needed to run the image.</li> 
+          <figure class="figure">
+            <img src="images/image-catalog-details.png" alt="Image details" loading="lazy" />
+            <figcaption><span class="label">Fig 5.2</span>Image Details.</figcaption>
+          </figure>
+          <li><strong>Release History</strong> lists all versions with their tags and release dates, newest first. Select a release card to switch to that version; the page updates to show its details.</li> 
+          <figure class="figure">
+            <img src="images/image-catalog-release-history.png" alt="Release history " loading="lazy" />
+            <figcaption><span class="label">Fig 5.3</span>Release history.</figcaption>
+          </figure>
+        </ul>
+
+        <h3>Viewing Installed Images</h3>
+        <p>Open <strong>Installed</strong> in the Image Catalog menu to see every image currently deployed. Each card shows the image name, its device count with online and offline status, and when it was last deployed.</p>
+        <figure class="figure">
+            <img src="images/image-catalog-installed-page.png" alt="View and manage installed images on devices" loading="lazy" />
+            <figcaption><span class="label">Fig 5.4</span>View and manage installed images on devices.</figcaption>
+        </figure>
+        <p>Select a card, to manage its devices. The page shows summary tiles for Devices, Online, Offline and Status. Below them, a searchable, sortable table lists each device with its version, install and modified dates, and status (<strong>Active</strong> or <strong>Device Offline</strong>).</p>
+        <p>For each device you can: </p>
+        <ul>
+          <li>Use the <strong>Link</strong> icon to open the running application. </li>
+          <li>Use the <strong>...</strong> menu in the Action column and choose Restart. </li>
+        </ul>
+         <figure class="figure">
+            <img src="images/image-catalog-installed-page-devices.png" alt="Devices associated with the selected installed image" loading="lazy" />
+            <figcaption><span class="label">Fig 5.5</span>Devices associated with the selected installed image.</figcaption>
+        </figure>
+      `,
+          },
+
+          {
+            id: "appendix",
+            title: "Appendix",
+            kind: "page",
+            lede: "Reference material, glossary, and support contacts.",
+            content: `
+        <h2 id="glossary"><span class="anchor"></span>Glossary</h2>
+        <table>
+          <thead><tr><th style="width:200px">Term</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Edge device</strong></td><td>A networked device registered with Orilla, running workloads close to the data source.</td></tr>
+            <tr><td><strong>Fleet</strong></td><td>A logical group of edge devices that share a context (location, purpose, hardware tier).</td></tr>
+            <tr><td><strong>Workload</strong></td><td>A containerized application, OS image, or AI model deployable to a device.</td></tr>
+            <tr><td><strong>Action</strong></td><td>An operation (Deploy / Upgrade / Update) dispatched to one or more devices.</td></tr>
+            <tr><td><strong>Health Status</strong></td><td>An aggregated metric derived from real device telemetry, reported per fleet.</td></tr>
+          </tbody>
+        </table>
+
+        <h2 id="contact-support"><span class="anchor"></span>Support</h2>
+        <p>For assistance, reach out to the Orilla support team directly. Include the affected device IDs, fleet name, and a screenshot of any error state where possible.</p>
+        <table>
+          <thead><tr><th style="width:160px">Channel</th><th>Details</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Email</strong></td><td><a href="mailto:help@orilla.ai">help@orilla.ai</a></td></tr>
+            <tr><td><strong>Phone</strong></td><td><a href="tel:+918198028981">+91 81980 28981</a></td></tr>
+          </tbody>
+        </table>
+
+        <div class="doc-footer">
+          <span>Orilla Edge Management Platform</span>
+          <span>End-User Guide · Version 4.0 · September 2026</span>
+        </div>
+      `,
+          },
+        ],
+      };
+    </script>
+
+    <!-- ============================================================ -->
+    <!-- App logic — renders sidebar + content from guideData.        -->
+    <!-- ============================================================ -->
+    <script>
+      (function () {
+        const sidebarList = document.getElementById("navList");
+        const docEl = document.getElementById("doc");
+        const onpageList = document.getElementById("onpageTocList");
+        const crumbHere = document.getElementById("crumbHere");
+        const search = document.getElementById("navSearch");
+        const menuBtn = document.getElementById("menuBtn");
+        const sidebar = document.getElementById("sidebar");
+        const scrim = document.getElementById("scrim");
+
+        // Build sidebar
+        function renderSidebar() {
+          sidebarList.innerHTML = "";
+          guideData.sections.forEach((s, i) => {
+            const li = document.createElement("li");
+            li.className = "nav-item";
+            li.dataset.id = s.id;
+            li.innerHTML = `<a href="#${s.id}"><span class="nav-dot"></span><span>${s.title}</span></a>`;
+            sidebarList.appendChild(li);
+          });
+        }
+
+        // Render the active section's full content
+        function renderSection(id, skipScroll) {
+          const sec =
+            guideData.sections.find((s) => s.id === id) ||
+            guideData.sections[0];
+          crumbHere.textContent = sec.title;
+          document.title = `${sec.title} · ${guideData.title}`;
+
+          let html = `
+      <h1>${sec.title}</h1>
+      ${sec.lede ? `<p class="lede">${sec.lede}</p>` : ""}
+      <div class="meta-row">
+        <span>📘 ${guideData.title}</span>
+        <span>v${guideData.meta.version}</span>
+        <span>Updated ${guideData.meta.updated}</span>
+      </div>
+      ${sec.content}
+    `;
+          docEl.innerHTML = html;
+
+          // Active state in sidebar
+          document
+            .querySelectorAll(".nav-item")
+            .forEach((n) =>
+              n.classList.toggle("active", n.dataset.id === sec.id),
+            );
+
+          // Build on-page TOC from h2/h3 in rendered content
+          onpageList.innerHTML = "";
+          const heads = docEl.querySelectorAll("h2, h3, h5");
+          heads.forEach((h) => {
+            // ensure it has an id
+            if (!h.id) {
+              h.id = h.textContent
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/^-|-$/g, "");
+            }
+            const a = document.createElement("a");
+            a.href = `#${h.id}`;
+            a.textContent = h.textContent;
+            a.className = h.tagName.toLowerCase();
+            a.dataset.target = h.id;
+            a.addEventListener("click", (ev) => {
+              ev.preventDefault();
+              const target = document.getElementById(a.dataset.target);
+              if (target) {
+                history.replaceState(null, "", "#" + a.dataset.target);
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+            });
+            onpageList.appendChild(a);
+          });
+
+          // Scroll content to top, anchor if present
+          if (!skipScroll) {
+            window.scrollTo(0, 0);
+          }
+
+          // close mobile sidebar
+          sidebar.classList.remove("open");
+          scrim.classList.remove("show");
+        }
+
+        // Routing
+        function routeFromHash() {
+          const raw = location.hash.replace(/^#/, "");
+          if (!raw) {
+            renderSection(guideData.sections[0].id);
+            return;
+          }
+
+          // If anchor already exists on the current page, just scroll — no re-render.
+          const here = document.getElementById(raw);
+          if (here && docEl.contains(here)) {
+            here.scrollIntoView({ behavior: "smooth", block: "start" });
+            return;
+          }
+
+          // Top-level section id?
+          const sec = guideData.sections.find((s) => s.id === raw);
+          if (sec) {
+            renderSection(raw);
+            return;
+          }
+
+          // Sub-anchor — find which section contains it, render that section, then scroll.
+          const owner = guideData.sections.find((s) =>
+            (s.content || "").includes(`id="${raw}"`),
+          );
+          if (owner) {
+            renderSection(owner.id, /*skipScroll*/ true);
+            requestAnimationFrame(() => {
+              const target = document.getElementById(raw);
+              if (target)
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
+            });
+          } else {
+            renderSection(guideData.sections[0].id);
+          }
+        }
+
+        // Sidebar search — searches BOTH section titles and section content text.
+        search.addEventListener("input", (e) => {
+          const q = e.target.value.toLowerCase().trim();
+          let visible = 0;
+          document.querySelectorAll("#navList .nav-item").forEach((li) => {
+            const id = li.dataset.id;
+            const sec = guideData.sections.find((s) => s.id === id);
+            const haystack = (
+              (sec?.title || "") +
+              " " +
+              (sec?.lede || "") +
+              " " +
+              (sec?.content || "")
+            )
+              .replace(/<[^>]+>/g, " ")
+              .toLowerCase();
+            const match = !q || haystack.includes(q);
+            li.style.display = match ? "" : "none";
+            if (match) visible++;
+          });
+          let empty = document.getElementById("navEmpty");
+          if (!empty) {
+            empty = document.createElement("li");
+            empty.id = "navEmpty";
+            empty.style.cssText =
+              "list-style:none;padding:8px 10px;color:var(--text-faint);font-size:12.5px;font-style:italic;";
+            empty.textContent = "No matches";
+            sidebarList.appendChild(empty);
+          }
+          empty.style.display = q && visible === 0 ? "" : "none";
+        });
+
+        // Mobile menu
+        menuBtn.addEventListener("click", () => {
+          sidebar.classList.add("open");
+          scrim.classList.add("show");
+        });
+        scrim.addEventListener("click", () => {
+          sidebar.classList.remove("open");
+          scrim.classList.remove("show");
+        });
+
+        // On-page TOC scroll-spy
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                const id = e.target.id;
+                document.querySelectorAll("#onpageTocList a").forEach((a) => {
+                  a.classList.toggle("active", a.dataset.target === id);
+                });
+              }
+            });
+          },
+          { rootMargin: "-80px 0px -70% 0px", threshold: 0 },
+        );
+
+        // Re-attach observer when content rerenders
+        const mo = new MutationObserver(() => {
+          docEl.querySelectorAll("h2, h3").forEach((h) => observer.observe(h));
+        });
+        mo.observe(docEl, { childList: true });
+
+        // Init
+        renderSidebar();
+        routeFromHash();
+        window.addEventListener("hashchange", routeFromHash);
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1240 @@
+[
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "‘"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": " Table of Contents "
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": " "
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": " "
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": " "
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "The Orilla login screen is your entry point to the entire platform. It is built with a dark-themed interface and keeps the experience simple: enter your credentials and you are in. The platform also supports a “Remember Me” option so that returning users on trusted devices do not need to re-enter credentials every session."
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Open the Orilla URL in the browser"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "You will land to login page. Select Sign Up if you are interacting with the platform for the first time."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "A registration form is presented. Fill the username, email id, password and select preferred authentication method (e.g. MFA)"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": ""
+  },
+  {
+    "type": "image",
+    "rId": "rId902393955",
+    "target": "/media/image2.png"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "1.SIgn Up"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "You will be redirected to the License Key Verification screen. Enter the shared License Key and verify"
+  },
+  {
+    "type": "image",
+    "rId": "rId29871889",
+    "target": "/media/image5.png"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "2. Enter License Key "
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Upon successful license validation, the system generates a 6-digit One-Time Password (OTP) and sends it to your registered email address."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Enter the OTP to complete the verification and activate your account."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": ""
+  },
+  {
+    "type": "image",
+    "rId": "rId955260645",
+    "target": "/media/image6.png"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "3.OTP Verification "
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "After successful Sign up, use your official registered email and password to access platform’s full features suite."
+  },
+  {
+    "type": "image",
+    "rId": "rId1422708218",
+    "target": "/media/image3.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "4.Login"
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "If you cannot recall your password, use the self-service reset flow built into the login screen:"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Click on the “Forgot Password”? link located below the password field."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "A prompt will appear to request the email address associated with your account. Enter the correct email and submit it."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": ""
+  },
+  {
+    "type": "image",
+    "rId": "rId1434108042",
+    "target": "/media/image1a.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "5.Forget Password"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Orilla will send a password reset link to the provided email address"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Click the link in your inbox to access the password reset page. Set and confirm your new password."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Once the reset is complete, return to the login screen and sign in using your new credentials."
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": " "
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "User Management governs access to the Orilla platform through a role-based permission model. This ensures that each user operates within a clearly defined scope of authority, maintaining security and operational integrity across the organization."
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "The platform support two primary roles-"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "ADMINFull platform access. Administrators can manage users, assign roles, configure system settings, and oversee all devices and operations across the platform. OBSERVERRead-only access. Observers can view devices, fleets, workloads, and metrics but cannot modify platform configurations or initiate operations. "
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "The User Management panel is accessible from the bottom-right user icon in the navigation bar. Once opened, the panel provides the following administrative actions:"
+  },
+  {
+    "type": "image",
+    "rId": "rId776718710",
+    "target": "/media/image9.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Change Password: Update the password for the currently authenticated user to maintain account security compliance."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Add User: Create new user accounts and assign appropriate roles or permissions based on the user's responsibilities."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "All Users: View and manage the complete list of registered users within the platform, including their assigned roles and account status."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "The Dashboard serves as the central command hub for monitoring platform activity. It provides real-time visibility into device overviews, orchestration deployments, model performance summaries, and overall system health — all from a single, unified interface."
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "The Dashboard is fully configurable to match each user's monitoring priorities:"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Switch to Edit Mode using the Edit button to enter the customization state."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Add or remove widgets from the Widget Catalog to tailor the information displayed."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": ""
+  },
+  {
+    "type": "image",
+    "rId": "rId108773960",
+    "target": "/media/imagea.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "1.Customize the dashboard"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Drag and reposition chart elements to arrange the layout according to your preference"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "image",
+    "rId": "rId2122170025",
+    "target": "/media/imageb.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "2.Select dashboard widgets"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Click Save to apply and persist in your changes."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Use the Clear All option to reset the dashboard entirely and rebuild it from scratch"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "The Edge Management module is the operational core of the Orilla platform. It provides the service necessary to register, monitor, group, and command edge devices across the enterprise. The module is organized into two primary sections: Devices and Edge Actions."
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "The Devices section provides full lifecycle management of edge devices, encompassing three functional areas: Overview, Fleet, and Onboarding. These areas are designed to help administrators efficiently monitor, group, and register edge devices at scale."
+  },
+  {
+    "type": "p",
+    "style": "Heading3",
+    "text": "1.1 Overview"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "The overview is the initial screen which shows every edge device that has been registered on the Orilla platform –all in one place. It allows users to quickly check device health, apply filters based on attributes such as status, tags, or operating system, and switch between grid and list views to suit different monitoring needs."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Each device entry displays essential metadata including name, IP address, status (Online/Offline), and associated tags."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Quick actions such as editing, tagging, or viewing detailed metrics are accessible directly from this screen"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": ""
+  },
+  {
+    "type": "image",
+    "rId": "rId1260599785",
+    "target": "/media/imagec.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "1.Overview"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "Telemetry"
+  },
+  {
+    "type": "image",
+    "rId": "rId639474726",
+    "target": "/media/imaged.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "2.Telemetry"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "The Telemetry tab gives you a real-time and historical view of how a device is performing across its key resources. It is the go-to screen when you want to understand whether a device is under stress, trending toward a problem, or running well."
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "Configure "
+  },
+  {
+    "type": "image",
+    "rId": "rId279548253",
+    "target": "/media/imagee.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "3.Configure"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "The Configure tab is where you control how the device communicates with the platform, what data it collects, and how it connects to your network. Changes here directly affect how platform interacts with the device going forward."
+  },
+  {
+    "type": "p",
+    "style": "Heading3",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Heading3",
+    "text": "1.2 Fleet Management"
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "A Fleet is a logical group of edge devices with a shared context (like location or purpose), allowing you to manage deployments, upgrades, and rollbacks across multiple devices at once—saving time and ensuring consistency."
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Heading4",
+    "text": "A.Onboard Devices"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Navigate to Devices → Onboarding from the left sidebar. "
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "The onboarding wizard provisions new edge devices in bulk and, when fleet grouping is enabled, automatically registers them under a named fleet. "
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "The wizard is divided into three sequential steps: General, Advanced, and Summary"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "Step 1-General Configuration"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "Use the − and + stepper to define the device count for this onboarding session. The accepted range is 1 to 10 devices per session. Each unit corresponds to one provisioned device of entry."
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "Add devices as Fleet? "
+  },
+  {
+    "type": "image",
+    "rId": "rId1213944393",
+    "target": "/media/imagef.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "A.Device Onboarding-General"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Toggle this option to Yes to automatically group all provisioned devices under a single fleet upon submission"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Setting this option to No provisions of devices as standalone, unaffiliated entities with no fleet assignment"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Select the protocol used to connect to devices (e.g., SSH)"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Use Common Credentials "
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Yes: Apply one username/password to all devices "
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "No: Provide credentials per device in the summary table "
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "Username / Password Enter shared SSH credentials when common credentials are enabled."
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "Step 2 — Advanced Configuration"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "Configure security, telemetry, data settings, network adjustments for the onboarded devices."
+  },
+  {
+    "type": "image",
+    "rId": "rId635714552",
+    "target": "/media/image10.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "A.Device Onboarding-Advance Configuration"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "Step 3 –Summary "
+  },
+  {
+    "type": "image",
+    "rId": "rId7131961",
+    "target": "/media/image11.png"
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "The Summary step renders an editable Devices Table containing one row per device, based on the count defined in Step 1. This is the final configuration checkpoint before provisioning is submitted to the platform."
+  },
+  {
+    "type": "p",
+    "style": "Heading4",
+    "text": "B. View Onboarded Fleets in the Fleet Section"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Once onboarding is submitted with fleet grouping enabled, the newly created fleet becomes immediately visible under Devices → Fleet"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "The Fleet page displays a card-based inventory of all fleets registered in the system"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Fleets onboarded via the wizard appear here immediately after submission with their device count reflecting the batch size provisioned in Step 1"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Click on any fleet card to open its detail view"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "The Add Fleet function provides an alternative path to fleet creation, allowing administrators to group already-onboarded devices into a new fleet without re-running the onboarding wizard."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Navigate to Devices → Fleet and click + Add Fleet in the top-left of the Fleet list page."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Define a unique fleet name, optionally add an icon, and select devices from the list"
+  },
+  {
+    "type": "image",
+    "rId": "rId1487345585",
+    "target": "/media/image12.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "image",
+    "rId": "rId1523927062",
+    "target": "/media/image13.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "C.Add Fleet"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "image",
+    "rId": "rId649761674",
+    "target": "/media/image14.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "View Fleet Details"
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "NOTE -Good to Know"
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "Devices can belong to multiple fleets if needed. For example, a device might be in both a 'Site A' fleet and a 'T2 Hardware' fleet, depending on how you want to organize operations."
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "Each fleet displays a Health Score that gives you an at-a-glance view of how well all devices in the group are performing. This score is calculated automatically from real device telemetry and categorized into four levels:"
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "TIP Pro Tip"
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "Use the Fleet Health Score as your daily check. A quick scan of all fleets tells you the health of your entire edge environment in seconds."
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "The Create New Action wizard enables administrators to define, configure, and schedule operational actions that are dispatched to target edge devices or fleets."
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "Step 1 — Create Action"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "This step defines what operation the platform will perform, when it will execute, which workload it applies to, and which fleet or device set it targets."
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "Action Types"
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Select Action Type (Deploy, Upgrade, Update, etc.) "
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Enter Action Name and set Schedule "
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Choose Workload (if applicable) "
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Select Target (Fleet or Manual) "
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Pick Devices from the list"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": ""
+  },
+  {
+    "type": "image",
+    "rId": "rId1145059423",
+    "target": "/media/image16.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "image",
+    "rId": "rId1874489118",
+    "target": "/media/image17.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "A.Create New Edge Action"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "Step 2- Explore "
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "View, track, and manage all actions with their status, details, and execution progress in one place."
+  },
+  {
+    "type": "image",
+    "rId": "rId1799919390",
+    "target": "/media/image18.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "A.Explore"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "The Image Catalog is the repository of containerized applications, operating system images, and AI workloads available for deployment across edge devices. It provides a structured, searchable catalog that allows users to discover, evaluate, and retrieve images for deployment with confidence."
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "Each image entry in the catalog includes comprehensive metadata such as name, tags, description, system requirements, file size, and a complete release history — giving administrators everything they need to make informed deployment decisions."
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "To locate and download an image for deployment, follow these steps:"
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Browse or search the Image Catalog to locate the desired image. Images are organized by type, including OS Images and AI Images."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Open the image profile to review its full metadata, including description, applicable tags, system requirements, and version release history."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Select the specific version you wish to download from the Release History panel."
+  },
+  {
+    "type": "p",
+    "style": "ListParagraph",
+    "text": "Confirm your selection to initiate the download. The selected version will be retrieved and prepared for deployment to edge devices."
+  },
+  {
+    "type": "image",
+    "rId": "rId2098262233",
+    "target": "/media/image19.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "A.Image Catalog"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": "The History panel provides users with quick, contextual visibility into their recent navigation and actions across the Orilla platform. It is designed to improve usability and support faster, more intuitive platform navigation."
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "Each entry in the History panel displays the module name and navigation context, allowing administrators and operators to easily retrace their steps and return directly to previously accessed pages — without requiring full audit log access."
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "The History panel is accessible via the clock icon in the left navigation bar and updates dynamically throughout each session to reflect the most recent platform activity."
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "image",
+    "rId": "rId1227794659",
+    "target": "/media/image1b.png"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": " "
+  },
+  {
+    "type": "table"
+  },
+  {
+    "type": "p",
+    "style": "Normal",
+    "text": ""
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "Orilla Edge Management Platform | End-User Guide | Version 1.0 | April 2026"
+  },
+  {
+    "type": "p",
+    "style": null,
+    "text": "For support, contact Orilla platform administrator."
+  }
+]
