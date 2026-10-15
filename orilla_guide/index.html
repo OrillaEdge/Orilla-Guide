@@ -986,6 +986,7 @@
     <!-- Each section.content is HTML.                                  -->
     <!-- Give every heading a unique, explicit ID so shared links work. -->
     <!-- ============================================================ -->
+    <script src="guide-config.js"></script>
     <script>
       const guideData = {
         title: "Orilla — End-User Guide",
@@ -1590,15 +1591,17 @@ this screen</li>
 
         <h2 id="edge-actions"><span class="anchor"></span>Edge Actions</h2>
         <h3 id="edge-actions-overview"><span class="anchor"></span>Overview</h3>
-        <p>The Edge Actions section lets you deploy, configure, and manage operations on edge devices at scale. From the left navigation panel, under Edge Actions, you can access five action types:</p>
+        <p>The Edge Actions section lets you deploy, configure, and manage operations on edge devices at scale. From the left navigation panel, under Edge Actions, you can access the following action types:</p>
 
         <table>
           <thead><tr><th style="width:200px">Action Type</th><th>Purpose</th></tr></thead>
           <tbody>
             <tr><td><strong>Orchestration</strong></td>
             <td>Deploy, upgrade, or roll back workloads/applications on edge devices (Type options: Deploy, Rollback, Upgrade)</td></tr>
+            <!-- feature:qsc -->
             <tr><td><strong>QSC</strong></td>
             <td>Check whether an edge device supports post-quantum encryption and track PQC rollout status across your device or fleet</td></tr>
+            <!-- /feature:qsc -->
             <tr><td><strong>System Upgrade</strong></td>
             <td>Push OS-level updates to devices (Type option: OS Update (Bootc))</td></tr>
             <tr><td><strong>Custom</strong></td>
@@ -1612,7 +1615,7 @@ this screen</li>
         <h3 id="edge-actions-navigate"><span class="anchor"></span>Navigating to Edge Actions</h3>
         <ul>
           <li>In the left sidebar, locate the <strong>Edge Actions</strong> section.</li>
-          <li>Select the action type you want to work with: Orchestration, QSC, System Upgrade, Custom, or Others.</li>
+          <li>Select the action type you want to work with: Orchestration, <!-- feature:qsc -->QSC, <!-- /feature:qsc -->System Upgrade, Custom, or Others.</li>
           <li>Each section opens a list/table view showing all previously created actions of that type.</li>
           <li>Use the Search bar to filter the list by name. </li>  
           <li>Click <strong>+Create</strong> (top right) to start a new action </li>
@@ -1623,7 +1626,7 @@ this screen</li>
         </figure>
     
         <h3 id="edge-actions-creating-action"><span class="anchor"></span> Creating a New Action</h3>
-        <p>Regardless of action type, creating a new action follows the same three steps:</p>
+        <p>For Orchestration, System Upgrade, Custom, and Others, creating a new action follows these three steps:</p>
         <p><strong>General → Select Devices → Select Access </strong></p>
 
         <h5 id="edge-actions-general"><span class="anchor"></span>A. General</h5>
@@ -1759,6 +1762,7 @@ this screen</li>
         </figure>
 
 
+        <!-- feature:qsc -->
              <h3 id="edge-actions-qsc"><span class="anchor"></span>Quantum-Safe Channel (QSC)</h3>
        <p>Use the Quantum-Safe Channel page in Edge Management to check whether a device supports post-quantum encryption, create a QSC for it, and track rollout status across your edge fleet. </p>
         <p>The QSC has three parts: a <strong>Create New</strong> button at the top right, the <strong>Available QOR images</strong> lists the quantum-safe OS images available for deployment and compatibility checks, and the <strong>Deployed Devices</strong> table shows devices with their post-quantum cryptography (PQC) status tracking.</p>
@@ -1785,6 +1789,7 @@ this screen</li>
           <img decoding="async" data-full-height="1616" data-full-width="3840" data-full-src="images/optimized/edge-actions-create-new-qsc.webp" src="images/optimized/edge-actions-create-new-qsc.preview.webp" width="1600" height="673" alt="Create new QSC " loading="lazy" />
           <figcaption><span class="label">Fig 4.25</span>Create new QSC</figcaption>
         </figure>
+        <!-- /feature:qsc -->
 
       `,
           },
@@ -2139,7 +2144,21 @@ this screen</li>
         });
         mo.observe(docEl, { childList: true });
 
+        // Filter content before routing, search, and the on-page TOC use it.
+        // Feature blocks are independent; do not nest their comment markers.
+        function applyFeatureFlags() {
+          const features = window.GUIDE_FEATURES || {};
+          const featureBlock = /<!--\s*feature:([a-z][a-z0-9-]*)\s*-->([\s\S]*?)<!--\s*\/feature:\1\s*-->/g;
+          guideData.sections.forEach((section) => {
+            section.content = section.content.replace(
+              featureBlock,
+              (_match, feature, content) => features[feature] === true ? content : "",
+            );
+          });
+        }
+
         // Init
+        applyFeatureFlags();
         renderSidebar();
         routeFromHash();
         window.addEventListener("hashchange", routeFromHash);
