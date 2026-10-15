@@ -1637,15 +1637,15 @@ this screen</li>
         </ul>
 
         <h4 id="edge-actions-orchestration"><span class="anchor"></span>Orchestration — Type options: Deploy, Upgrade and Revert workloads </h4>
-        <p>Orchestration lets you deploy, upgrade, or roll back workloads across your edge device /fleet at scale. <strong>Edge Actions → Orchestration</strong>, then click <strong>+ Create</strong>.</p>
+        <p>Orchestration lets you deploy, upgrade, or roll back workloads across your edge device/fleet at scale. <strong>Edge Actions → Orchestration</strong>, then click <strong>+ Create</strong>.</p>
         <figure class="figure">
-          <img decoding="async" data-full-height="1966" data-full-width="3834" data-full-src="images/optimized/edge-actions-orchestration-table.webp" src="images/optimized/edge-actions-general-configuration-orchestration.preview.webp" width="1600" height="820" alt="General Configuration- Orchestration" loading="lazy" />
+          <img decoding="async" data-full-height="1966" data-full-width="3834" data-full-src="images/edge-actions-orchestration-table.png" src="images/edge-actions-orchestration-table.png" width="1600" height="820" alt="General Configuration- Orchestration" loading="lazy" />
           <figcaption><span class="label">Fig 4.12</span>Orchestration Table</figcaption>
         </figure>
         <p>Choose the Type (Deploy Workload), enter a Name, select the Workload and Version, set Target.</p>
         <p>Select device and access then submit.</p>
         <figure class="figure">
-          <img decoding="async" data-full-height="1966" data-full-width="3834" data-full-src="images/optimized/edge-actions-general-configuration-orchestration.webp" src="images/optimized/edge-actions-general-configuration-orchestration.preview.webp" width="1600" height="820" alt="General Configuration- Orchestration" loading="lazy" />
+          <img decoding="async" data-full-height="1966" data-full-width="3834" data-full-src="images/edge-actions-general-configuration-orchestration.png" src="images/edge-actions-general-configuration-orchestration.png" width="1600" height="820" alt="General Configuration- Orchestration" loading="lazy" />
           <figcaption><span class="label">Fig 4.13</span> General Configuration - Orchestration</figcaption>
         </figure>
         <p>Click its name in the Orchestration list. All devices start as Ready.</p>
@@ -1714,9 +1714,52 @@ this screen</li>
           <div class="cl-icon">ℹ</div>
           <div class="cl-body"><div class="cl-title">Note</div>Select device and access will work for orchestration, System upgrade, custom and other section only.</div>
         </div>
-      
+    
+        <h3 id="explore"><span class="anchor"></span>Running and Monitoring an Action</h3>
+        <h5 id="explore-details"><span class="anchor"></span>A. Start and Confirm Execution</h5>
+        <p>In the <strong>Current</strong> tab, tick the checkboxes next to the devices you want to run the action on. Click the green <strong>Start</strong> button, then confirm execution in the dialog.</p>
+        <figure class="figure">
+          <img decoding="async" data-full-height="1778" data-full-width="3840" data-full-src="images/edge-actions-start-action.png" src="images/edge-actions-start-action.png" width="1600" height="741" alt="Detail view of created edge action" loading="lazy" />
+          <figcaption><span class="label">Fig 4.20</span>Detail view of created edge action</figcaption>
+        </figure>
 
-      <h3 id="edge-actions-qsc"><span class="anchor"></span>Quantum-Safe Channel (QSC)</h3>
+        <h5 id="explore-execute-action"><span class="anchor"></span>B. Monitor Status and Retry Failed Devices</h5>
+        <ul>
+          <li>Watch each device's status on the detail page: <strong>Ongoing</strong>, <strong>Successful</strong>, or <strong>Failed</strong>.</li>
+          <li>Hover over the <strong>Status</strong> bar in the list to see the device counts.</li>
+          <li>If a device fails, select it and click <strong>Retry</strong>.</li>
+        </ul>
+        <figure class="figure">
+          <img decoding="async" data-full-height="1522" data-full-width="3840" data-full-src="images/edge-actions-confirm-execution.png" src="images/edge-actions-confirm-execution.png" width="1600" height="634" alt="Execute the edge command" loading="lazy" />
+          <figcaption><span class="label">Fig 4.21</span>Execute the edge action</figcaption>
+        </figure>
+           <figure class="figure">
+          <img decoding="async" data-full-height="1522" data-full-width="3840" data-full-src="images/edge-actions-track-execution.png" src="images/edge-actions-track-execution.png" width="1600" height="634" alt="Execute the edge command" loading="lazy" />
+          <figcaption><span class="label">Fig 4.21</span>Track execution status, view failed devices, and retry actions from the Current tab</figcaption>
+        </figure>
+
+        <h5 id="explore-view-action"><span class="anchor"></span>C. Review Execution History</h5>
+        <ul>
+          <li>Successful and failed device executions are logged in the <strong>History</strong> tab.</li>
+          <li>Devices deleted from the <strong>Current</strong> tab remain accessible in <strong>History</strong>.</li>
+        </ul>
+        <figure class="figure">
+          <img decoding="async" data-full-height="1498" data-full-width="3838" data-full-src="images/edge-actions-execution-history.png" src="images/edge-actions-execution-history.png" width="1600" height="624" alt="Execution progress panel" loading="lazy" />
+          <figcaption><span class="label">Fig 4.22</span>View the execution history of the selected action</figcaption>
+        </figure>
+
+        <h5 id="explore-stop-action"><span class="anchor"></span>D. Inspect Execution Details</h5>
+        <ul>
+          <li>Click a device row or the relevant status indicator in the <strong>Devices</strong> table to open the <strong>Details</strong> side panel.</li>
+          <li>The panel shows a step-by-step execution timeline.</li>
+        </ul>
+         <figure class="figure">
+          <img decoding="async" data-full-height="1498" data-full-width="3838" data-full-src="images/edge-actions-execution-progress-panel.png" src="images/edge-actions-execution-progress-panel.png" width="1600" height="624" alt="Execution progress panel" loading="lazy" />
+          <figcaption><span class="label">Fig 4.22</span>Execution progress panel</figcaption>
+        </figure>
+
+
+             <h3 id="edge-actions-qsc"><span class="anchor"></span>Quantum-Safe Channel (QSC)</h3>
        <p>Use the Quantum-Safe Channel page in Edge Management to check whether a device supports post-quantum encryption, create a QSC for it, and track rollout status across your edge fleet. </p>
         <p>The QSC has three parts: a <strong>Create New</strong> button at the top right, the <strong>Available QOR images</strong> lists the quantum-safe OS images available for deployment and compatibility checks, and the <strong>Deployed Devices</strong> table shows devices with their post-quantum cryptography (PQC) status tracking.</p>
        <figure class="figure">
@@ -1742,52 +1785,6 @@ this screen</li>
           <img decoding="async" data-full-height="1616" data-full-width="3840" data-full-src="images/optimized/edge-actions-create-new-qsc.webp" src="images/optimized/edge-actions-create-new-qsc.preview.webp" width="1600" height="673" alt="Create new QSC " loading="lazy" />
           <figcaption><span class="label">Fig 4.19</span>Create new QSC</figcaption>
         </figure>
-
-
-
-
-
-
-        <h3 id="explore"><span class="anchor"></span>Running and Monitoring an Action</h3>
-        <h5 id="explore-details"><span class="anchor"></span>A. Action Details Page</h5>
-        <p>Click any action's Name from the list view to open its Action Details page .</p>
-        <ul>
-          <li>Start, Stop, and Delete controls (top right)  </li>
-          <li>Added at and Scheduled Time timestamps </li>
-          <li>A Devices table listing each target device, its Last Updated time, and its current Status (e.g., Ongoing) </li>
-        </ul>
-        <figure class="figure">
-          <img decoding="async" data-full-height="1778" data-full-width="3840" data-full-src="images/optimized/explore-details-page.webp" src="images/optimized/explore-details-page.preview.webp" width="1600" height="741" alt="Detail view of created edge action" loading="lazy" />
-          <figcaption><span class="label">Fig 4.20</span>Detail view of created edge action</figcaption>
-        </figure>
-
-        <h5 id="explore-execute-action"><span class="anchor"></span>B. Starting/Executing an Action</h5>
-        <ul>
-          <li>Click <strong>Start</strong> to run the action. </li>
-          <li>A confirmation dialog — <strong>Execute Command</strong> </li>
-        </ul>
-        <figure class="figure">
-          <img decoding="async" data-full-height="1522" data-full-width="3840" data-full-src="images/optimized/explore-execute-action.webp" src="images/optimized/explore-execute-action.preview.webp" width="1600" height="634" alt="Execute the edge command" loading="lazy" />
-          <figcaption><span class="label">Fig 4.21</span>Execute the edge command</figcaption>
-        </figure>
-
-        <h5 id="explore-view-action"><span class="anchor"></span>C. Viewing Execution Progress</h5>
-        <ul>
-          <li>Click on a device row (or the relevant status indicator) in the Devices table to open the Details side panel. </li>
-          <li>This panel shows a step-by-step execution timeline </li>
-          <li>Each step/sub-step shows a live status label (e.g., <strong>SUCCESS</strong>) as it completes</li>
-          <li>Close the panel using the <strong>✕</strong> icon at the top right.  </li>
-        </ul>
-        <figure class="figure">
-          <img decoding="async" data-full-height="1498" data-full-width="3838" data-full-src="images/optimized/explore-view-action.webp" src="images/optimized/explore-view-action.preview.webp" width="1600" height="624" alt="Execution progress panel" loading="lazy" />
-          <figcaption><span class="label">Fig 4.22</span>Execution progress panel</figcaption>
-        </figure>
-
-        <h5 id="explore-stop-action"><span class="anchor"></span>D. Stopping or Deleting an Action</h5>
-        <ul>
-          <li>Use <strong>Stop</strong> to halt an in-progress or scheduled action. </li>
-          <li>Use <strong>Delete</strong> to permanently remove the action from the list. </li>
-        </ul>
 
       `,
           },
