@@ -1602,26 +1602,18 @@ this screen</li>
             <tr><td><strong>System Upgrade</strong></td>
             <td>Push OS-level updates to devices (Type option: OS Update (Bootc))</td></tr>
             <tr><td><strong>Custom</strong></td>
-            <td>Run custom shell/scripted actions on target devices (Type option: Custom)</td></tr>
+            <td>Run custom shell/scripted actions on target devices</td></tr>
             <tr><td><strong>Others</strong></td>
             <td>Additional edge actions outside the core categories (Type option: NBDE Deployment)</td></tr>
           </tbody>
         </table>
-        <p>All five action types share the same <strong>3-step creation workflow</strong> and the same <strong>Action Details</strong> monitoring view, described below.</p>
+        <p>Orchestration, System upgrade, custom, others share the same <strong>3-step creation workflow</strong> and the same <strong>Action Details</strong>.</p>
 
         <h3 id="edge-actions-navigate"><span class="anchor"></span>Navigating to Edge Actions</h3>
         <ul>
-          <li>In the left sidebar, locate the <strong>Edge Actions</strong> section .</li>
+          <li>In the left sidebar, locate the <strong>Edge Actions</strong> section.</li>
           <li>Select the action type you want to work with: Orchestration, QSC, System Upgrade, Custom, or Others.</li>
-          <li>Each section opens a list/table view showing all previously created actions of that type, with columns such as:</li>
-            <ul>
-              <li>Name – the action's identifier (click to open its details) </li>
-              <li>Type – e.g., Deployment  </li>
-              <li>Application – workload deployed   </li>
-              <li>Version  </li>
-              <li>Added At / Started At – timestamps  </li>
-              <li>Status – e.g., 0/1 (devices completed / total), or - if not yet run  </li>
-            </ul>
+          <li>Each section opens a list/table view showing all previously created actions of that type.</li>
           <li>Use the Search bar to filter the list by name. </li>  
           <li>Click <strong>+Create</strong> (top right) to start a new action </li>
         </ul>
@@ -1645,15 +1637,18 @@ this screen</li>
         </ul>
 
         <h4 id="edge-actions-orchestration"><span class="anchor"></span>Orchestration — Type options: Deploy, Upgrade and Revert workloads </h4>
-        <ul>
-          <li>Schedule – date/time to run the action (defaults to current date/time) </li>
-          <li>Select Workload – the application/workload to act on </li>
-          <li>Use Deploy to push a new workload to devices, Upgrade to move an existing workload to a newer version, and Rollback to revert a workload to a prior version. </li>
-        </ul>
+        <p>Orchestration lets you deploy, upgrade, or roll back workloads across your edge device /fleet at scale. <strong>Edge Actions → Orchestration</strong>, then click <strong>+ Create</strong>.</p>
+        <figure class="figure">
+          <img decoding="async" data-full-height="1966" data-full-width="3834" data-full-src="images/optimized/edge-actions-orchestration-table.webp" src="images/optimized/edge-actions-general-configuration-orchestration.preview.webp" width="1600" height="820" alt="General Configuration- Orchestration" loading="lazy" />
+          <figcaption><span class="label">Fig 4.12</span>Orchestration Table</figcaption>
+        </figure>
+        <p>Choose the Type (Deploy Workload), enter a Name, select the Workload and Version, set Target.</p>
+        <p>Select device and access then submit.</p>
         <figure class="figure">
           <img decoding="async" data-full-height="1966" data-full-width="3834" data-full-src="images/optimized/edge-actions-general-configuration-orchestration.webp" src="images/optimized/edge-actions-general-configuration-orchestration.preview.webp" width="1600" height="820" alt="General Configuration- Orchestration" loading="lazy" />
-          <figcaption><span class="label">Fig 4.12</span> General Configuration - Orchestration</figcaption>
+          <figcaption><span class="label">Fig 4.13</span> General Configuration - Orchestration</figcaption>
         </figure>
+        <p>Click its name in the Orchestration list. All devices start as Ready.</p>
 
         <h4 id="edge-actions-system-upgrade"><span class="anchor"></span>System Upgrade — Type option: OS Update (Bootc)</h4>
         <ul>
@@ -1666,7 +1661,7 @@ this screen</li>
           <figcaption><span class="label">Fig 4.13</span> General Configuration - System Upgrade</figcaption>
         </figure>
 
-        <h4 id="edge-actions-custom"><span class="anchor"></span>Custom — Type option: Custom</h4>
+        <h4 id="edge-actions-custom"><span class="anchor"></span>Custom</h4>
         <ul>
           <li>Schedule </li>
           <li><strong>Custom Action</strong>– Free-text field to enter the custom script/command to execute </li>
@@ -1715,9 +1710,9 @@ this screen</li>
           <img decoding="async" data-full-height="1142" data-full-width="3840" data-full-src="images/optimized/edge-actions-select-access.webp" src="images/optimized/edge-actions-select-access.preview.webp" width="1600" height="476" alt="Select the users who should have access new edge action" loading="lazy" />
           <figcaption><span class="label">Fig 4.17</span>Select the users who should have access new edge action -REQUIRED</figcaption>
         </figure>
-         <div class="callout note">
+        <div class="callout note">
           <div class="cl-icon">ℹ</div>
-          <div class="cl-body"><div class="cl-title">Note</div>  Select device and access will work for orchestration, System upgrade, custom and other section only  .</div>
+          <div class="cl-body"><div class="cl-title">Note</div>Select device and access will work for orchestration, System upgrade, custom and other section only.</div>
         </div>
       
 
